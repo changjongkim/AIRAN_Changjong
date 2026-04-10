@@ -1,0 +1,137 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775567913.451199 1949339 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775567913.509460 1949339 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775567913.852925 1949339 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775567913.852985 1949339 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775567913.853000 1949339 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775567913.853014 1949339 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775567927.442709 1949339 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37539 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+I0000 00:00:1775567927.445121 1949339 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:1 with 37539 MB memory:  -> device: 1, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:41:00.0, compute capability: 8.0
+I0000 00:00:1775567927.447771 1949339 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:2 with 37539 MB memory:  -> device: 2, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:82:00.0, compute capability: 8.0
+I0000 00:00:1775567927.450400 1949339 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:3 with 37539 MB memory:  -> device: 3, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:c1:00.0, compute capability: 8.0
+Process Process-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 73, in worker_hbm_stress
+    torch.cuda.set_device(gpu_id)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Process Process-4:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 73, in worker_hbm_stress
+    torch.cuda.set_device(gpu_id)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Process Process-5:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 73, in worker_hbm_stress
+    torch.cuda.set_device(gpu_id)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Process Process-6:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 73, in worker_hbm_stress
+    torch.cuda.set_device(gpu_id)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Process Process-7:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 90, in worker_resnet50
+    import torchvision.models as models
+ModuleNotFoundError: No module named 'torchvision'
+Process Process-8:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 90, in worker_resnet50
+    import torchvision.models as models
+ModuleNotFoundError: No module named 'torchvision'
+Process Process-9:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 90, in worker_resnet50
+    import torchvision.models as models
+ModuleNotFoundError: No module named 'torchvision'
+Process Process-10:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 90, in worker_resnet50
+    import torchvision.models as models
+ModuleNotFoundError: No module named 'torchvision'
+Process Process-11:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 90, in worker_resnet50
+    import torchvision.models as models
+ModuleNotFoundError: No module named 'torchvision'
+Process Process-12:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 90, in worker_resnet50
+    import torchvision.models as models
+ModuleNotFoundError: No module named 'torchvision'
+Exception ignored in: <function PdschTx.__del__ at 0x7fbbfd9b4d30>
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/phy5g/pdsch/pdsch_tx.py", line 365, in __del__
+    check_cuda_errors(cudart.cudaFree(self.tx_output_mem))
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/util/cuda.py", line 39, in check_cuda_errors
+    raise RuntimeError(f"CUDA error code={result[0].value}")
+RuntimeError: CUDA error code=700
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  an illegal memory access was encountered
+/usr/lib/python3.10/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 120 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/var/spool/slurmd/job51149589/slurm_script: line 29: 1949339 Aborted                 shifter --image=docker:nvcr.io/nvidia/aerial/aerial-cuda-accelerated-ran:25-3-cubb python3 /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py

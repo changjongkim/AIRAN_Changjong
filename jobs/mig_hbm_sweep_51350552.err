@@ -1,0 +1,61 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775821175.691194 2134165 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775821175.750701 2134165 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775821176.097774 2134165 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775821176.097827 2134165 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775821176.097842 2134165 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775821176.097855 2134165 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775821188.847670 2134165 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 78250 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-80GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+Process Process-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_mig_hbm_sweep.py", line 71, in hbm_worker
+    torch.cuda.set_device(0)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 807: MPS server is not ready to accept new MPS client requests
+Process Process-3:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_mig_hbm_sweep.py", line 71, in hbm_worker
+    torch.cuda.set_device(0)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 807: MPS server is not ready to accept new MPS client requests
+Process Process-4:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_mig_hbm_sweep.py", line 71, in hbm_worker
+    torch.cuda.set_device(0)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 807: MPS server is not ready to accept new MPS client requests
+Process Process-5:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_mig_hbm_sweep.py", line 71, in hbm_worker
+    torch.cuda.set_device(0)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 807: MPS server is not ready to accept new MPS client requests
+[2026-04-10T11:47:25.415] error: *** JOB 51350552 ON nid008421 CANCELLED AT 2026-04-10T11:47:25 DUE to SIGNAL Terminated ***

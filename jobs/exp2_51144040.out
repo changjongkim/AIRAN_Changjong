@@ -1,0 +1,45 @@
+Warning: Failed writing log files to directory [/var/log/nvidia-mps]. No logs will be available.
+MPS daemon started
+============================================================
+Experiment 2: AI Interference Mode
+============================================================
+Workloads: ['none', 'resnet50', 'gpt2']
+Iterations per workload: 500 (warmup: 20)
+
+[1/3] Setting up channel model...
+[2/3] Creating L1 pipelines...
+[3/3] Running measurements...
+
+--- Workload: none ---
+  TTI:  mean=21.310ms  p99=34.888ms  jitter=0.1375
+  RX:   mean=2.244ms  p99=15.566ms
+  Deadline miss (>1ms): 100.0%
+
+--- Workload: resnet50 ---
+  Launching resnet50 background workload...
+  Waiting 30s for AI workload to warm up...
+  TTI:  mean=21.299ms  p99=31.976ms  jitter=0.1242
+  RX:   mean=2.180ms  p99=12.406ms
+  Deadline miss (>1ms): 100.0%
+
+--- Workload: gpt2 ---
+  Launching gpt2 background workload...
+  Waiting 30s for AI workload to warm up...
+  TTI:  mean=21.151ms  p99=33.453ms  jitter=0.1408
+  RX:   mean=2.189ms  p99=13.740ms
+  Deadline miss (>1ms): 100.0%
+
+============================================================
+SUMMARY
+============================================================
+    Workload |   TTI mean |    TTI P99 |    RX mean |     RX P99 |   Jitter |  Miss% |  Slowdown
+-----------------------------------------------------------------------------------------------
+        none |   21.310ms |   34.888ms |    2.244ms |   15.566ms |   0.1375 | 100.0% |     1.00x
+    resnet50 |   21.299ms |   31.976ms |    2.180ms |   12.406ms |   0.1242 | 100.0% |     1.00x
+        gpt2 |   21.151ms |   33.453ms |    2.189ms |   13.740ms |   0.1408 | 100.0% |     0.99x
+
+Results saved to: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp2_ai_interference_20260407_093158.json
+09:30:23.783043 cuphy.hpp:122    CON[896889] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563b24de4a70).
+09:30:23.978889 cuphy.hpp:122    CON[896889] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x563b2cc65c80).
+09:30:23.978890 pusch_rx.cpp:1227 CON[896889] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+MPS daemon stopped

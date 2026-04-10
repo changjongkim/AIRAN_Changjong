@@ -21,3 +21,4 @@ jobs/job_*
 # System
 .DS_Store
 *.swp
+aerial-cuda-accelerated-ran/

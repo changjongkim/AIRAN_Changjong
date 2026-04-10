@@ -1,0 +1,90 @@
+MPS started
+	[4mGPU0	GPU1	GPU2	GPU3	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NV4	NV4	NV4	48-63,112-127	3		N/A
+GPU1	NV4	 X 	NV4	NV4	32-47,96-111	2		N/A
+GPU2	NV4	NV4	 X 	NV4	16-31,80-95	1		N/A
+GPU3	NV4	NV4	NV4	 X 	0-15,64-79	0		N/A
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+======================================================================
+Phase 0: 4-GPU Interference Experiment
+======================================================================
+GPUs available: 4
+  GPU0: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+  GPU1: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+  GPU2: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+  GPU3: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+L1 pipeline runs on GPU0
+Config: warmup=10, iterations=100
+
+[1/2] Setting up L1 on GPU0...
+[2/2] Running 8 modes...
+
+=== A1_baseline ===
+  RX: mean=2.170ms  p95=7.346ms  p99=9.702ms  jitter=0.9780  miss(>1ms)=100.0%
+
+=== B1_hbm8G_sameGPU0 ===
+  Started worker on GPU0, waiting for warmup...
+  All 1 workers ready. Measuring L1 on GPU0...
+    [HBM_Stress GPU0 8.0GB] 2987 iters
+  RX: mean=118.569ms  p95=128.104ms  p99=130.054ms  jitter=0.0491  miss(>1ms)=100.0%
+
+=== B2_hbm8G_diffGPU1 ===
+  Started worker on GPU1, waiting for warmup...
+  All 1 workers ready. Measuring L1 on GPU0...
+  RX: mean=2.296ms  p95=8.780ms  p99=13.476ms  jitter=1.1970  miss(>1ms)=100.0%
+
+=== B3_hbm8G_allGPUs ===
+  Started worker on GPU0, waiting for warmup...
+  Started worker on GPU1, waiting for warmup...
+  Started worker on GPU2, waiting for warmup...
+  Started worker on GPU3, waiting for warmup...
+  All 4 workers ready. Measuring L1 on GPU0...
+    [HBM_Stress GPU0 8.0GB] 18566 iters
+  RX: mean=116.992ms  p95=128.160ms  p99=130.162ms  jitter=0.0531  miss(>1ms)=100.0%
+
+=== C1_resnet_sameGPU0 ===
+  Started worker on GPU0, waiting for warmup...
+  All 1 workers ready. Measuring L1 on GPU0...
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+=== C2_resnet_diffGPU1 ===
+  Started worker on GPU1, waiting for warmup...
+  All 1 workers ready. Measuring L1 on GPU0...
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+=== C3_resnet_allGPUs ===
+  Started worker on GPU0, waiting for warmup...
+  Started worker on GPU1, waiting for warmup...
+  Started worker on GPU2, waiting for warmup...
+  Started worker on GPU3, waiting for warmup...
+  All 4 workers ready. Measuring L1 on GPU0...
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+=== A2_baseline_final ===
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+======================================================================
+SUMMARY (1 Node, 4 GPU)
+======================================================================
+Mode                     |  RX mean |   RX P95 |   RX P99 |  Jitter |  Miss% |  vs base
+-------------------------------------------------------------------------------------
+A1_baseline              |  2.170ms |  7.346ms |  9.702ms |  0.9780 | 100.0% |    1.00x
+B1_hbm8G_sameGPU0        | 118.569ms | 128.104ms | 130.054ms |  0.0491 | 100.0% |   54.63x
+B2_hbm8G_diffGPU1        |  2.296ms |  8.780ms | 13.476ms |  1.1970 | 100.0% |    1.06x
+B3_hbm8G_allGPUs         | 116.992ms | 128.160ms | 130.162ms |  0.0531 | 100.0% |   53.90x
+C1_resnet_sameGPU0       |    CRASH |
+C2_resnet_diffGPU1       |    CRASH |
+C3_resnet_allGPUs        |    CRASH |
+A2_baseline_final        |    CRASH |
+
+Results saved to: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_phase0_4gpu_20260407_134137.json
+MPS stopped

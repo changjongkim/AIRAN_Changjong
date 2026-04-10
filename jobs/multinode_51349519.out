@@ -1,0 +1,24 @@
+Nodes: nid[008685,008688]
+Tasks: 2
+[Rank 0] nid008685 | world_size=2 | ai_workload=resnet
+
+[Rank 0] Running L1 on nid008685:GPU0
+[Rank 1] nid008688 | world_size=2 | ai_workload=resnet
+
+[Rank 1] Running AI=resnet on nid008688:GPU0
+[AI Worker] resnet on nid008688:GPU0
+[Rank 0] Starting L1 measurement...
+[AI Worker] ResNet-50 warmup done, running for 115s...
+[L1] 4 cells, 2T4R, MCS 10, HBM 5.0/85.1GB
+10:38:57.693951 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x56420d9f3480).
+10:38:57.878864 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5642158852a0).
+10:38:57.878865 pusch_rx.cpp:1227 CON[1379443] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+10:38:57.883976 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x564215686e50).
+10:38:57.975962 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x564215feee90).
+10:38:57.975962 pusch_rx.cpp:1227 CON[1379443] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+10:38:57.980697 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5642161ade20).
+10:38:58.071543 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5642166346f0).
+10:38:58.071543 pusch_rx.cpp:1227 CON[1379443] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+10:38:58.076386 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x564216809920).
+10:38:58.165973 cuphy.hpp:122    CON[1379443] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x564216ba8f50).
+10:38:58.165973 pusch_rx.cpp:1227 CON[1379443] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1

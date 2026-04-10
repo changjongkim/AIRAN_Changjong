@@ -1,0 +1,23 @@
+======================================================================
+Unified Phase 0 Experiment
+======================================================================
+GPU: NVIDIA A100-SXM4-40GB
+HBM: 42.4 GB total, 41.0 GB free
+Warmup: 20, Iterations: 200
+
+[1/2] Setting up L1 pipelines + channel...
+[2/2] Running 7 modes...
+
+=== A1_baseline ===
+  RX:  mean=2.172ms  p95=7.748ms  p99=12.395ms  jitter=1.3262
+  HBM used: 5.5%  RX deadline miss (>1ms): 63.0%
+
+=== B1_hbm_fill_85pct ===
+    [HBM_Fill] 36.0/42.4 GB (85%)
+    [HBM_Fill_85pct] running (warmup done)
+    [HBM_Fill_85pct] stopped after 75 iters
+  RX:  mean=2.174ms  p95=8.101ms  p99=12.136ms  jitter=1.1571
+  HBM used: 85.0%  RX deadline miss (>1ms): 63.5%
+
+=== B2_hbm_bw_stress_4GB ===
+    [HBM_BW_Stress_4.0GB] running (warmup done)

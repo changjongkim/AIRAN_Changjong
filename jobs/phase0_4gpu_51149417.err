@@ -1,0 +1,25 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775567275.633971 2288679 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775567275.694249 2288679 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775567276.042948 2288679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775567276.043000 2288679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775567276.043016 2288679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775567276.043030 2288679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 394, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 307, in main
+    apply_channel, ctx = setup_l1()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_4gpu.py", line 133, in setup_l1
+    resource_grid = sionna.phy.ofdm.ResourceGrid(
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/sionna/phy/ofdm/resource_grid.py", line 83, in __init__
+    self.pilot_pattern = pilot_pattern
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/sionna/phy/ofdm/resource_grid.py", line 235, in pilot_pattern
+    value = EmptyPilotPattern(self._num_tx,
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/sionna/phy/ofdm/pilot_pattern.py", line 264, in __init__
+    mask = tf.zeros(shape, tf.bool)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/tensorflow/python/util/traceback_utils.py", line 153, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/tensorflow/python/eager/context.py", line 1485, in _compute_device_options
+    raise ValueError("Memory growth cannot differ between GPU devices")
+ValueError: Memory growth cannot differ between GPU devices

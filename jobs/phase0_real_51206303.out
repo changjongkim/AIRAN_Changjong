@@ -1,0 +1,56 @@
+MPS started
+index, name, memory.total [MiB], memory.free [MiB]
+0, NVIDIA A100-SXM4-40GB, 40960 MiB, 40442 MiB
+1, NVIDIA A100-SXM4-40GB, 40960 MiB, 40442 MiB
+2, NVIDIA A100-SXM4-40GB, 40960 MiB, 40442 MiB
+3, NVIDIA A100-SXM4-40GB, 40960 MiB, 40442 MiB
+======================================================================
+Phase 0: Realistic Multi-Cell GPU Interference Experiment
+======================================================================
+GPUs: 4x NVIDIA A100-SXM4-40GB
+  GPU0: 41.2/42.4 GB free
+  GPU1: 41.2/42.4 GB free
+  GPU2: 41.2/42.4 GB free
+  GPU3: 41.2/42.4 GB free
+Config: warmup=10, iterations=100
+
+======================================================================
+L1 CONFIG: 1cell_2x1_mcs2
+======================================================================
+  L1 config: 1 cells, 1T2R MIMO, MCS 2
+  GPU0 HBM after L1 setup: 2.4/42.4 GB (6%)
+
+=== 1cell_2x1_mcs2_baseline ===
+  RX(1cells): mean=2.394ms  p95=10.783ms  p99=13.698ms  jitter=1.2567  miss(>1ms)=100.0%
+
+=== 1cell_2x1_mcs2_hbm8G_same ===
+  Started worker on GPU0...
+  All 1 workers ready.
+    [HBM_Stress GPU0 8.0GB] 2939 iters
+  RX(1cells): mean=119.412ms  p95=129.411ms  p99=139.272ms  jitter=0.0608  miss(>1ms)=100.0%
+
+=== 1cell_2x1_mcs2_hbm8G_diff ===
+  Started worker on GPU1...
+  All 1 workers ready.
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+=== 1cell_2x1_mcs2_resnet_same ===
+  Started worker on GPU0...
+  All 1 workers ready.
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+=== 1cell_2x1_mcs2_resnet_diff ===
+  Started worker on GPU1...
+  All 1 workers ready.
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+=== 1cell_2x1_mcs2_gpt2_same ===
+  Started worker on GPU0...
+  All 1 workers ready.
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+
+=== 1cell_2x1_mcs2_gpt2_diff ===
+  Started worker on GPU1...
+  All 1 workers ready.
+  ERROR: cudaErrorIllegalAddress: an illegal memory access was encountered
+MPS stopped

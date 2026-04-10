@@ -1,0 +1,80 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775641331.803309  696688 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775641331.864616  696688 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775641332.244890  696688 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775641332.244937  696688 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775641332.244952  696688 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775641332.244965  696688 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775641351.332549  696688 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37539 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+I0000 00:00:1775641351.334426  696688 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:1 with 37539 MB memory:  -> device: 1, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:41:00.0, compute capability: 8.0
+I0000 00:00:1775641351.336029  696688 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:2 with 37539 MB memory:  -> device: 2, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:82:00.0, compute capability: 8.0
+I0000 00:00:1775641351.337487  696688 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:3 with 37539 MB memory:  -> device: 3, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:c1:00.0, compute capability: 8.0
+Process Process-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_realistic.py", line 105, in worker_hbm_stress
+    torch.cuda.set_device(gpu_id)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 807: MPS server is not ready to accept new MPS client requests
+Process Process-3:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_realistic.py", line 67, in worker_resnet50
+    torch.cuda.set_device(gpu_id)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 807: MPS server is not ready to accept new MPS client requests
+Process Process-4:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_realistic.py", line 67, in worker_resnet50
+    torch.cuda.set_device(gpu_id)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 529, in set_device
+    torch._C._cuda_setDevice(device)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 807: MPS server is not ready to accept new MPS client requests
+Process Process-5:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_realistic.py", line 85, in worker_gpt2
+    from transformers import GPT2LMHeadModel, GPT2Config
+ModuleNotFoundError: No module named 'transformers'
+Process Process-6:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_realistic.py", line 85, in worker_gpt2
+    from transformers import GPT2LMHeadModel, GPT2Config
+ModuleNotFoundError: No module named 'transformers'
+Exception ignored in: <function PdschTx.__del__ at 0x7efd2bf3add0>
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/phy5g/pdsch/pdsch_tx.py", line 365, in __del__
+    check_cuda_errors(cudart.cudaFree(self.tx_output_mem))
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/util/cuda.py", line 39, in check_cuda_errors
+    raise RuntimeError(f"CUDA error code={result[0].value}")
+RuntimeError: CUDA error code=700
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  an illegal memory access was encountered
+/usr/lib/python3.10/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 60 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/var/spool/slurmd/job51206303/slurm_script: line 27: 696688 Aborted                 shifter --image=docker:nvcr.io/nvidia/aerial/aerial-cuda-accelerated-ran:25-3-cubb python3 /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0_realistic.py

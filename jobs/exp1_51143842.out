@@ -1,0 +1,68 @@
+============================================================
+Experiment 1: L1 Baseline Latency Measurement
+============================================================
+Warmup: 50, Iterations: 1000
+
+[1/4] Setting up channel model...
+[2/4] Creating L1 pipelines...
+[3/4] Running 1050 iterations (first 50 warmup)...
+  [0/1000] TTI=22.71ms FusedRx=0.79ms
+  [200/1000] TTI=23.62ms FusedRx=0.79ms
+  [400/1000] TTI=24.82ms FusedRx=0.81ms
+  [600/1000] TTI=21.76ms FusedRx=0.78ms
+  [800/1000] TTI=22.90ms FusedRx=0.77ms
+
+[4/4] Results
+============================================================
+GPU: b'NVIDIA A100-SXM4-40GB'
+HBM: 42.4 GB total, 34.5 GB free
+
+--- PDSCH_Tx ---
+  Mean:  1.134 ms
+  Std:   0.018 ms
+  P50:   1.129 ms
+  P95:   1.163 ms
+  P99:   1.171 ms
+  Jitter: 0.0158
+  Deadline miss (>1ms): 100.0%
+
+--- Channel ---
+  Mean:  17.937 ms
+  Std:   0.574 ms
+  P50:   17.888 ms
+  P95:   19.009 ms
+  P99:   19.395 ms
+  Jitter: 0.0320
+  Deadline miss (>1ms): 100.0%
+
+--- PUSCH_Rx_Fused ---
+  Mean:  0.790 ms
+  Std:   0.023 ms
+  P50:   0.782 ms
+  P95:   0.813 ms
+  P99:   0.822 ms
+  Jitter: 0.0291
+  Deadline miss (>1ms): 0.2%
+
+--- PUSCH_Rx_Separable ---
+  Mean:  2.441 ms
+  Std:   0.103 ms
+  P50:   2.433 ms
+  P95:   2.525 ms
+  P99:   2.543 ms
+  Jitter: 0.0424
+  Deadline miss (>1ms): 100.0%
+
+--- TTI_Total ---
+  Mean:  22.355 ms
+  Std:   0.626 ms
+  P50:   22.287 ms
+  P95:   23.534 ms
+  P99:   23.942 ms
+  Jitter: 0.0280
+  Deadline miss (>1ms): 100.0%
+
+Results saved to: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp1_baseline_20260407_092000.json
+09:19:33.742142 cuphy.hpp:122    CON[701682] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x56011c69a400).
+09:19:33.946084 cuphy.hpp:122    CON[701682] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5601244b0290).
+09:19:33.946085 pusch_rx.cpp:1227 CON[701682] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1

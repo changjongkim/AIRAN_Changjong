@@ -1,0 +1,31 @@
+Starting MPS daemon...
+MPS daemon started
+======================================================================
+Phase 0: GPU Interference Experiment (MPS + Multiprocessing)
+======================================================================
+GPU: NVIDIA A100-SXM4-40GB
+HBM: 42.4 GB total, 41.2 GB free
+Config: warmup=10, iterations=100
+
+[1/2] Setting up L1 pipelines + channel...
+[2/2] Running 7 modes...
+
+=== A1_baseline ===
+  RX: mean=2.283ms  p95=7.946ms  p99=14.291ms  jitter=1.2251  miss(>1ms)=62.0%
+
+=== B1_hbm_stress_8GB ===
+  Waiting for AI worker to warm up...
+  AI worker ready. Measuring L1...
+    [HBM_Stress 8.0GB] 3011 copy iters completed
+  RX: mean=120.868ms  p95=138.802ms  p99=138.897ms  jitter=0.0626  miss(>1ms)=100.0%
+
+=== B2_hbm_stress_16GB ===
+  Waiting for AI worker to warm up...
+  AI worker ready. Measuring L1...
+    [HBM_Stress 16.0GB] 3009 copy iters completed
+  RX: mean=238.453ms  p95=256.462ms  p99=277.564ms  jitter=0.0569  miss(>1ms)=100.0%
+
+=== C1_resnet50_bs16 ===
+  Waiting for AI worker to warm up...
+  AI worker ready. Measuring L1...
+MPS daemon stopped

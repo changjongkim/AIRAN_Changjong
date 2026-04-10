@@ -1,0 +1,42 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775565045.989298 1035223 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775565046.048760 1035223 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775565046.405782 1035223 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775565046.405826 1035223 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775565046.405841 1035223 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775565046.405854 1035223 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775565058.547316 1035223 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37539 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+Process Process-3:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0.py", line 73, in ai_worker_resnet50
+    import torchvision.models as models
+ModuleNotFoundError: No module named 'torchvision'
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0.py", line 389, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0.py", line 348, in main
+    result = run_mode(apply_channel, ctx, No, label, worker_fn, worker_kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0.py", line 301, in run_mode
+    result = measure_l1(apply_channel, ctx, No, label)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0.py", line 241, in measure_l1
+    timer = CudaTimer()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/utils/timing.py", line 11, in __init__
+    self.start_event = cp.cuda.Event()
+  File "cupy/cuda/stream.pyx", line 128, in cupy.cuda.stream.Event.__init__
+  File "cupy_backends/cuda/api/runtime.pyx", line 956, in cupy_backends.cuda.api.runtime.eventCreateWithFlags
+  File "cupy_backends/cuda/api/runtime.pyx", line 146, in cupy_backends.cuda.api.runtime.check_status
+cupy_backends.cuda.api.runtime.CUDARuntimeError: cudaErrorIllegalAddress: an illegal memory access was encountered
+Exception ignored in: <function PdschTx.__del__ at 0x7ff30c218ca0>
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/phy5g/pdsch/pdsch_tx.py", line 365, in __del__
+    check_cuda_errors(cudart.cudaFree(self.tx_output_mem))
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/util/cuda.py", line 39, in check_cuda_errors
+    raise RuntimeError(f"CUDA error code={result[0].value}")
+RuntimeError: CUDA error code=700
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  an illegal memory access was encountered
+/var/spool/slurmd/job51148014/slurm_script: line 27: 1035223 Aborted                 shifter --image=docker:nvcr.io/nvidia/aerial/aerial-cuda-accelerated-ran:25-3-cubb python3 /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_phase0.py

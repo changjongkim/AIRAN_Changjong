@@ -1,0 +1,9 @@
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/mig_emu_single.py", line 111, in ai_worker
+    dst = torch.empty_like(src)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 23.78 GiB. GPU 0 has a total capacity of 79.25 GiB of which 54.65 GiB is free. Process 261551 has 36.00 MiB memory in use. Including non-PyTorch memory, this process has 24.56 GiB memory in use. 39.63 GiB allowed; Of the allocated memory 23.78 GiB is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

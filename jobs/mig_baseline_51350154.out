@@ -1,0 +1,20 @@
+============================================================
+MIG Emulator: MIG_L1-7g_solo
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+L1:  7g (100% SM, 95% mem)
+============================================================
+  L1 HBM: 2.4/85.1GB
+
+============================================================
+RESULT: MIG_L1-7g_solo
+  RX mean:  0.967 ms
+  RX P50:   0.976 ms
+  RX P95:   1.124 ms
+  RX P99:   1.129 ms
+  Jitter:   0.1200
+  Miss>1ms: 50.0%
+============================================================
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_MIG_L1-7g_solo_20260410_112756.json
+11:27:52.973366 cuphy.hpp:122    CON[1449504] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x558684bc74e0).
+11:27:53.153116 cuphy.hpp:122    CON[1449504] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55868c9cab00).
+11:27:53.153117 pusch_rx.cpp:1227 CON[1449504] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1

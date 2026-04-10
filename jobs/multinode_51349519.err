@@ -1,0 +1,30 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775817519.028684 1379443 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775817519.085928 1379443 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775817519.435837 1379443 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775817519.435863 1379443 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775817519.435867 1379443 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775817519.435869 1379443 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775817537.212377 1379443 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 78939 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-80GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_multinode.py", line 317, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_multinode.py", line 280, in main
+    rx_trk = run_l1_measurement(args.cells, args.tx, args.rx, args.mcs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_multinode.py", line 231, in run_l1_measurement
+    rx_t = apply_channel(tx_t, No)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/exp_multinode.py", line 172, in apply_channel
+    t = rg_map(t)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/sionna/phy/block.py", line 155, in __call__
+    return self.call(*args, **kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/sionna/phy/ofdm/resource_grid.py", line 409, in call
+    rg = tf.tensor_scatter_nd_update(template, self._data_ind, inputs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/tensorflow/python/util/traceback_utils.py", line 153, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/site-packages/tensorflow/python/framework/ops.py", line 6006, in raise_from_not_ok_status
+    raise core._status_to_exception(e) from None  # pylint: disable=protected-access
+tensorflow.python.framework.errors_impl.InvalidArgumentError: {{function_node __wrapped__TensorScatterUpdate_device_/job:localhost/replica:0/task:0/device:GPU:0}} Outer dimensions of indices and update must match. Indices shape: [91728,4], updates shape:[45864,1] [Op:TensorScatterUpdate] name: 
+srun: error: nid008685: task 0: Exited with exit code 1
+srun: Terminating StepId=51349519.0
+srun: error: nid008688: task 1: Terminated
+srun: Force Terminated StepId=51349519.0

@@ -1,0 +1,57 @@
+Nodes: nid[001669,001672]
+
+========== baseline ==========
+[Rank 0] nid001669 | mode=baseline | world=2
+
+=== baseline (L1 solo) ===
+[Rank 1] nid001672 | mode=baseline | world=2
+[L1] nid001669:GPU0 HBM 2.4/42.4GB
+
+============================================================
+RESULT: multinode_baseline (nid001669)
+  RX mean:  2.060 ms
+  RX P95:   7.898 ms
+  RX P99:   8.234 ms
+  Jitter:   1.1465
+  Miss>1ms: 63.0%
+============================================================
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_multinode_baseline_20260410_115108.json
+[Rank 0] Done.
+11:50:55.357088 cuphy.hpp:122    CON[911945] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55ac8d3f6870).
+11:50:55.555496 cuphy.hpp:122    CON[911945] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55ac951fb4c0).
+11:50:55.555496 pusch_rx.cpp:1227 CON[911945] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+[Rank 1] Done.
+
+========== same_gpu ==========
+[Rank 0] nid001669 | mode=same_gpu | world=2
+[Rank 1] nid001672 | mode=same_gpu | world=2
+
+========== diff_gpu ==========
+[Rank 1] nid001672 | mode=diff_gpu | world=2
+[Rank 0] nid001669 | mode=diff_gpu | world=2
+
+========== diff_node ==========
+[Rank 1] nid001672 | mode=diff_node | world=2
+[Rank 0] nid001669 | mode=diff_node | world=2
+
+=== diff_node (L1:Node0, HBM:Node1) ===
+[Rank 1] nid001672:GPU0 HBM stress 17.0GB running for 115s
+[L1] nid001669:GPU0 HBM 2.4/42.4GB
+
+============================================================
+RESULT: multinode_diff_node (nid001669)
+  RX mean:  1.951 ms
+  RX P95:   7.625 ms
+  RX P99:   8.813 ms
+  Jitter:   1.2060
+  Miss>1ms: 62.0%
+============================================================
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_multinode_diff_node_20260410_115329.json
+[Rank 0] Done.
+11:53:20.781753 cuphy.hpp:122    CON[914314] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5563702c5810).
+11:53:20.883155 cuphy.hpp:122    CON[914314] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5563780c97e0).
+11:53:20.883156 pusch_rx.cpp:1227 CON[914314] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+[Rank 1] HBM stress done: 2603 iters
+[Rank 1] Done.
+
+All modes complete.

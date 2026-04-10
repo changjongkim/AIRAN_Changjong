@@ -1,0 +1,27 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775821845.697180 1315821 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775821845.759124 1315821 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775821846.117561 1315821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775821846.117622 1315821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775821846.117637 1315821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775821846.117650 1315821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775821860.382574 1315821 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 37539 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/mig_emu_single.py", line 111, in ai_worker
+    dst = torch.empty_like(src)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 22.51 GiB. GPU 0 has a total capacity of 39.49 GiB of which 15.89 GiB is free. Process 1316723 has 36.00 MiB memory in use. Including non-PyTorch memory, this process has 23.55 GiB memory in use. Of the allocated memory 22.51 GiB is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.10/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/mig_emu_single.py", line 111, in ai_worker
+    dst = torch.empty_like(src)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 11.85 GiB. GPU 0 has a total capacity of 39.49 GiB of which 26.82 GiB is free. Process 1318237 has 36.00 MiB memory in use. Including non-PyTorch memory, this process has 12.63 GiB memory in use. 19.75 GiB allowed; Of the allocated memory 11.85 GiB is allocated by PyTorch, and 1.59 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[2026-04-10T11:55:33.606] error: *** JOB 51350731 ON nid002808 CANCELLED AT 2026-04-10T11:55:33 DUE to SIGNAL Terminated ***

@@ -1,0 +1,8 @@
+============================================================
+MIG Emulator: MIG_L1-7g_AI-7g_hbm_stress
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1:  7g (100% SM, 95% mem)
+AI:  7g (100% SM, 95% mem) — hbm_stress
+============================================================
+Waiting for AI worker...
+AI worker timeout!

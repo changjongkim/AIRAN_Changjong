@@ -1,0 +1,29 @@
+MPS started
+	[4mGPU0	GPU1	GPU2	GPU3	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NV4	NV4	NV4	48-63,112-127	3		N/A
+GPU1	NV4	 X 	NV4	NV4	32-47,96-111	2		N/A
+GPU2	NV4	NV4	 X 	NV4	16-31,80-95	1		N/A
+GPU3	NV4	NV4	NV4	 X 	0-15,64-79	0		N/A
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+======================================================================
+Phase 0: 4-GPU Interference Experiment
+======================================================================
+GPUs available: 4
+  GPU0: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+  GPU1: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+  GPU2: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+  GPU3: NVIDIA A100-SXM4-40GB, 42.4GB total, 41.2GB free
+L1 pipeline runs on GPU0
+Config: warmup=10, iterations=100
+
+[1/2] Setting up L1 on GPU0...
+MPS stopped
