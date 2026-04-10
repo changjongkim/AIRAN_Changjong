@@ -1,0 +1,23 @@
+# Large files / build artifacts
+aerial-cuda-accelerated-ran/build/
+aerial-cuda-accelerated-ran/.git/
+site-packages/
+datasets/
+CLI11/
+local/
+container-build/
+pyaerial_install/
+
+# Python
+__pycache__/
+*.pyc
+
+# Results (keep JSON, ignore large raw data)
+# experiments/results/ is tracked
+
+# SLURM temp job scripts
+jobs/job_*
+
+# System
+.DS_Store
+*.swp
