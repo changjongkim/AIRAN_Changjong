@@ -1,0 +1,51 @@
+============================================================
+Multi-Node Multi-Cell Experiment
+Node0 (L1): nid002373
+Node1 (AI): nid002376
+L1 config: 8 cells
+============================================================
+
+==========================================
+MODE: baseline (L1 8cells solo)
+==========================================
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1: 8 cells, 1T2R, MCS 2
+HBM after setup: 8.5/42.4GB (20%)
+
+RESULT: mn_baseline
+  Cells:    8
+  RX mean:  7.318 ms (0.915 ms/cell)
+  RX P50:   5.995 ms
+  RX P95:   12.937 ms
+  RX P99:   14.973 ms
+  Jitter:   0.3347
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_mn_baseline_20260410_122253.json
+12:22:24.660574 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af811e2830).
+12:22:24.841490 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af88fe6e40).
+12:22:24.841490 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:22:24.846660 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af88de89f0).
+12:22:24.946905 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af8974f210).
+12:22:24.946906 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:22:24.989871 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af8990fe10).
+12:22:25.085042 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af89d96730).
+12:22:25.085043 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:22:25.089929 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af89f6b8e0).
+12:22:25.181623 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af8a30af10).
+12:22:25.181624 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:22:25.186482 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af8a6111c0).
+12:22:25.304605 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af8a96d520).
+12:22:25.304606 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:22:25.340374 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af8ac6b8d0).
+12:22:25.443414 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af8afea220).
+12:22:25.443415 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:22:25.449393 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af8b30a550).
+12:22:25.541798 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af8b6b5aa0).
+12:22:25.541799 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:22:25.546870 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af8b99a350).
+12:22:25.637766 cuphy.hpp:122    CON[425863] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55af8bd1ae10).
+12:22:25.637766 pusch_rx.cpp:1227 CON[425863] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: same_gpu_gpt2
+==========================================

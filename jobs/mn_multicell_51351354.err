@@ -1,0 +1,23 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775823727.630047  425863 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775823727.691663  425863 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775823728.048968  425863 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775823728.048991  425863 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775823728.048994  425863 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775823728.048996  425863 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775823744.147509  425863 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 38193 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-40GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_gpt2_stress.py", line 17, in <module>
+    from transformers import GPT2LMHeadModel, GPT2Config
+ModuleNotFoundError: No module named 'transformers'
+srun: error: nid002373: task 0: Exited with exit code 1
+srun: Terminating StepId=51351354.1
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775823792.158661  426876 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775823792.163350  426876 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775823792.177926  426876 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775823792.177942  426876 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775823792.177944  426876 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775823792.177946  426876 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+[2026-04-10T12:23:13.020] error: *** STEP 51351354.2 ON nid002373 CANCELLED AT 2026-04-10T12:23:13 DUE to SIGNAL Terminated ***
+[2026-04-10T12:23:13.022] error: *** JOB 51351354 ON nid002373 CANCELLED AT 2026-04-10T12:23:13 DUE to SIGNAL Terminated ***

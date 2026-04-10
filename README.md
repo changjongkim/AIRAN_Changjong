@@ -490,6 +490,8 @@ nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
 
 ### 실험 설계
 
+**프로세스 구조**: 셸 레벨에서 2개의 독립 프로세스를 동시 실행
+
 ```
 ┌─ Shell Process A ────────────────┐
 │  shifter → cuPHY L1 → 측정       │──┐
@@ -502,6 +504,40 @@ nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
 > Python multiprocessing은 MPS Error 807, pickle error 등 불안정.
 > **셸 레벨에서 `&`로 background process 관리**가 가장 안정적.
 > 모드마다 MPS를 fresh restart하여 crash 전파 방지.
+
+**AI Workload 상세**:
+
+| Workload | 실행 방법 | GPU 리소스 특성 | 목적 |
+|----------|----------|----------------|------|
+| **HBM Stress** | 대형 텐서 2개를 `torch.copy_()`로 무한 반복 | HBM bandwidth를 포화시킴 (SM은 적게 사용) | bandwidth 경쟁의 극한 측정 |
+| **GPT-2** | GPT-2 LLM inference 무한 루프 (batch=4, seq=512) | HBM bandwidth 중간, SM 중간 | 현실적 LLM 워크로드 (NVIDIA PoC 논문과 동일 유형) |
+| **ResNet-50** | ResNet-50 CNN inference 무한 루프 (batch=32) | SM 많이 사용, HBM bandwidth 적음 | compute-heavy AI 워크로드 |
+
+```
+HBM Stress의 동작 원리:
+
+  src = torch.randn(N, device="cuda")    ← GPU HBM에 대형 텐서 할당
+  dst = torch.empty_like(src)            ← 동일 크기 빈 텐서
+
+  while True:
+      dst.copy_(src)    ← GPU 내부에서 HBM → HBM 복사 (bandwidth 소모)
+      src.copy_(dst)    ← 반대 방향 복사
+
+  → 이 루프가 HBM bandwidth를 거의 100% 점유
+  → 같은 GPU에서 L1 커널이 HBM에 접근하려 할 때 대기 발생 → latency 증가
+  → 다른 GPU에서 실행하면 별도 HBM이므로 영향 없음
+```
+
+**L1 측정 방법**: CUDA Events로 cuPHY PUSCH Rx 커널의 GPU 실행 시간만 측정
+
+```
+timer.start()                              ← CUDA Event 기록
+rxp(slot=slot, rx_slot=rx_t, config=ucfg)  ← cuPHY PUSCH 수신 파이프라인
+timer.stop()                               ← CUDA Event 기록 + 동기화
+elapsed_ms = timer.elapsed_ms()            ← GPU 커널 실행 시간 (ms)
+```
+
+이 방식은 Python 오버헤드를 제외하고 **순수 GPU 커널 실행 시간**만 측정한다.
 
 ### Exp-1: HBM Bandwidth Stress 크기별 간섭 곡선 (2026-04-10)
 
