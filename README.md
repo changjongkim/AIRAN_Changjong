@@ -730,78 +730,160 @@ Sionna 채널 모델 없이 cuPHY TX→노이즈추가→RX 방식으로 multi-c
 - **HBM 사용**: 20cell에서도 23% — **실제 기지국(30-40%)에 미달**
   - 4T4R × 20cell 수준이 필요하나, TX 안테나 확장 테스트 진행 중
 
-### 핵심 발견 종합 및 분석
+### Exp-10: Heavy L1 Interference — 4T4R × 20cell (2026-04-12)
 
-#### 1. 간섭의 원인은 HBM Bandwidth 경쟁
+**실제 기지국에 근접한 L1 부하(4T4R × 20cell, HBM ~23%)에서 AI 간섭 측정.**
+이전 1cell 실험에서 간섭이 미미했던 GPT-2/ResNet이 heavy L1에서는 유의미한 간섭을 보임.
 
-| 워크로드 유형 | bandwidth 패턴 | L1 간섭 |
-|-------------|--------------|---------|
-| HBM stress (연속 copy) | ████████████ (100% 연속) | **47x** |
-| ResNet-50 bs=256 | ██░██░██░██░ (빈번한 activation R/W) | **2.40x** |
-| Qwen-72B inference | ██░░░░██░░░░ (간헐적 weight read) | **1.60x** |
-| GPT-2 inference | █░░░░░█░░░░░ (매우 간헐적) | **1.02x** |
+| Mode | RX mean | per cell | vs baseline | 비고 |
+|------|---------|----------|-------------|------|
+| **baseline** | **16.557ms** | 0.828ms | 1.00x | 4T4R×20cell 단독 |
+| **+ HBM 4GB** | **990.552ms** | 49.5ms | **59.8x** | bandwidth 포화 |
+| **+ Qwen-72B** (4GPU TP) | **22.042ms** | 1.102ms | **1.33x** | LLM, 4GPU 분산 |
+| **+ ResNet-50 bs=128** | **54.193ms** | 2.710ms | **3.27x** | CNN, same GPU |
+| **+ GPT-2** | **57.947ms** | 2.897ms | **3.50x** | LLM, same GPU |
+| baseline_final | 17.167ms | 0.858ms | 1.04x | 일관성 ✅ |
 
-bandwidth를 연속적으로 사용하는 워크로드일수록 간섭이 큼.
-LLM inference는 "weight 읽기 → 긴 compute → 다시 읽기" 패턴이라
-bandwidth 사용이 간헐적 → L1이 빈 틈에 접근 가능 → 간섭 미미.
+**1cell → 20cell 비교 — L1 부하가 높을수록 간섭 증가:**
 
-### Exp-10: Q2 Dynamic — Flash Crowd 시뮬레이션 (2026-04-12)
+| AI Workload | 1cell (이전) | 20cell (지금) | 변화 |
+|---|---|---|---|
+| GPT-2 | 1.02x (간섭 없음) | **3.50x** | 간섭 나타남 |
+| ResNet-50 | 1.42x (미미) | **3.27x** | 2배 이상 증가 |
+| Qwen-72B | 1.60x | **1.33x** | 감소 (아래 설명) |
+| HBM 4GB | 23.58x | **61.24x** | 2.6배 증가 |
 
-L1이 실행 중인 상태에서 AI workload를 **갑자기 투입/제거**하여
-간섭 시작/복구의 전환 시간을 측정. 300 iterations 동안 per-iteration
-latency와 timestamp를 기록.
+**왜 GPT-2(3.50x)가 Qwen-72B(1.33x)보다 간섭이 큰가?**
 
 ```
-시간축 →
-  Mode 2 (flash_hbm):
-    0s        10s                           30s
-    |── 2ms ──|──── 40ms ──────────────────|
-    L1 정상    HBM 투입 → 즉시 20x 느려짐
+GPT-2 (124M, 1GPU):
+  전체 weight를 GPU0 HBM에서 읽음 → GPU0 bandwidth 100% 사용
+  
+Qwen-72B (72B, 4GPU tensor parallel):
+  weight가 4개 GPU에 분산 → GPU0에는 전체의 1/4만 있음
+  → GPU0의 bandwidth 사용 = GPT-2보다 적음
+  → 나머지 3/4는 GPU1~3에서 → GPU0의 L1에 영향 없음
 
-  Mode 4 (recovery_hbm):
-    0s        10s                           30s
-    |── 40ms ─|──── 2ms ──────────────────|
-    L1 느림    HBM 제거 → 즉시 baseline 복구
+결론: 모델 크기보다 "같은 GPU에서의 bandwidth 사용량"이 간섭을 결정.
+      Tensor parallel로 분산하면 per-GPU 간섭을 줄일 수 있음.
 ```
+
+### Exp-11: Heavy L1 SM% Sweep — 4T4R × 20cell (2026-04-12)
+
+4T4R × 20cell에서 SM을 줄이면 L1이 느려지는가?
+
+| SM% | SMs | RX mean | vs 100% |
+|-----|-----|---------|---------|
+| 100% | 108 | 15.962ms | 1.00x |
+| 80% | 86 | 16.469ms | 1.03x |
+| 60% | 64 | 15.679ms | 0.98x |
+| 50% | 54 | 15.950ms | 1.00x |
+| 40% | 42 | 16.372ms | 1.03x |
+| 30% | 32 | 16.567ms | 1.04x |
+| 20% | 20 | 16.720ms | 1.05x |
+| 14% | 14 | 16.230ms | 1.02x |
+| **10%** | **10** | **16.645ms** | **1.04x** |
+
+**SM 10%에서도 L1 변화 없음.** 이유:
+
+```
+pyAerial은 20개 cell을 Python loop로 "순차" 처리:
+  for cell in cells:
+      cell.rx(...)  ← 한 cell씩 GPU에서 실행
+
+한 cell의 RX 커널은 SM ~5개면 충분
+→ SM 10% (10개) = 한 cell 처리에 충분
+→ 20cell을 하나씩 처리하니 총 시간 = 20 × per-cell → SM과 무관
+
+실제 cuPHY runtime (cubb_gpu_test_bench)은 multi-cell 동시 실행:
+  → 20cell이 GPU에서 동시에 SM을 경쟁
+  → 이 경우 SM 감소 = per-cell latency 증가 = TTI miss
+  → pyAerial에서는 이 효과를 관찰할 수 없음 (한계)
+```
+
+### Exp-12: Heavy L1 Bandwidth Threshold — 4T4R × 20cell (2026-04-12)
+
+4T4R × 20cell에서의 HBM bandwidth threshold 곡선.
+
+| HBM Copy | RX mean | per cell | vs baseline |
+|----------|---------|----------|-------------|
+| baseline | 16.097ms | 0.805ms | 1.00x |
+| **0.1GB** | **57.143ms** | 2.857ms | **3.55x** |
+| 0.5GB | 151.349ms | 7.567ms | **9.40x** |
+| 1.0GB | 275.271ms | 13.764ms | **17.10x** |
+| 2.0GB | 494.544ms | 24.727ms | **30.72x** |
+| 4.0GB | 985.697ms | 49.285ms | **61.24x** |
+| baseline_final | 16.090ms | 0.805ms | 1.00x |
+
+**1cell vs 20cell threshold 비교 — L1이 무거울수록 bandwidth에 더 민감:**
+
+| HBM Copy | 1cell 간섭 | 20cell 간섭 | 민감도 증가 |
+|----------|-----------|------------|-----------|
+| 0.1GB | 1.62x | **3.55x** | **2.2배** |
+| 0.5GB | 4.01x | **9.40x** | **2.3배** |
+| 1.0GB | 6.73x | **17.10x** | **2.5배** |
+| 2.0GB | 12.07x | **30.72x** | **2.5배** |
+| 4.0GB | 23.58x | **61.24x** | **2.6배** |
+
+```
+이유: L1이 HBM을 사용하는 시간이 길수록 AI와 겹치는 확률 증가
+  1cell:  L1이 0.7ms 동안 HBM 사용 → AI와 겹칠 시간 짧음
+  20cell: L1이 16ms 동안 HBM 사용 → AI와 겹칠 시간 20배 이상
+  → 같은 bandwidth stress에 대해 20cell이 ~2.5배 더 민감
+```
+
+### Exp-13: Q2 Dynamic — Flash Crowd (1cell, 2026-04-12)
+
+L1 실행 중 AI workload를 갑자기 투입/제거하여 전환 시간 측정.
 
 | Mode | RX mean | vs baseline | 의미 |
 |------|---------|-------------|------|
-| baseline (정상) | 1.932ms | 1.00x | |
-| **flash_hbm** (t=10s HBM 투입) | **40.354ms** | **20.9x** | 간섭 즉시 시작 |
-| flash_resnet (t=10s ResNet 투입) | 2.750ms | 1.42x | 미미한 간섭 |
-| **recovery_hbm** (t=10s HBM 제거) | **1.949ms** | **1.01x** | 즉시 복구 |
+| baseline | 1.932ms | 1.00x | 정상 상태 |
+| **flash_hbm** (t=10s 투입) | **40.354ms** | **20.9x** | 즉시 간섭 시작 |
+| flash_resnet (t=10s 투입) | 2.750ms | 1.42x | 미미한 간섭 |
+| **recovery_hbm** (t=10s 제거) | **1.949ms** | **1.01x** | 즉시 복구 |
 
-**핵심**:
-- **간섭 시작**: AI workload 투입 즉시 L1 latency 증가 (전환 지연 ~0)
-- **간섭 해소**: AI workload 제거 즉시 L1 baseline 복구 (1.949ms ≈ 1.932ms)
-- **오케스트레이션 시사점**: 복잡한 예측 모델 없이 "SLA 위반 감지 → AI 즉시 중단"하는
-  reactive 정책으로도 L1 보호 가능. 복구가 즉각적이므로 migration의 효과가 확실함.
+**오케스트레이션 시사점**: 간섭 시작과 해소 모두 **즉각적** (전환 지연 ~0).
+AI workload를 중단하면 L1이 바로 baseline으로 복구됨.
+→ 복잡한 예측 모델 없이 reactive 정책("SLA 위반 감지 → AI 즉시 중단")이 유효.
 
-#### 2. 현재 L1이 너무 가벼움 (Over-provisioned)
+### 핵심 발견 종합
 
-```
-현재 설정:         1T2R, 1cell → SM ~5%, HBM ~2% 사용
-NVIDIA PoC 논문:   4T4R         → GPU 30-40% 사용
-실제 기지국:       64T64R, 20cell → GPU 70-90% 사용
+#### 1. L1 부하가 높으면 현실적 AI workload도 유의미한 간섭 발생
 
-→ 현재 L1이 GPU의 ~5%만 쓰니까
-  나머지 95%에서 AI가 뭘 하든 L1에 영향 없음
-→ "간섭이 없다"가 아니라 "L1이 너무 작아서 간섭이 보이지 않는 것"
-```
+| AI Workload | L1 lightweight (1cell) | L1 heavy (20cell) |
+|---|---|---|
+| GPT-2 (same GPU) | 1.02x | **3.50x** |
+| ResNet-50 bs=128 | 1.42x | **3.27x** |
+| HBM 0.1GB | 1.62x | **3.55x** |
 
-#### 3. 연구 방향: "안전 마진을 얼마나 줄일 수 있는가"
+**이전에 "간섭 없다"고 보였던 건 L1이 너무 가벼웠기 때문.**
+4T4R × 20cell로 올리면 GPT-2도 3.5배 간섭 발생.
 
-현재 시스템이 over-provisioned라면, 연구 질문을 전환해야 함:
+#### 2. 간섭의 핵심 요인은 "같은 GPU에서의 bandwidth 사용량"
 
-> **"간섭이 있다/없다"가 아니라,**
-> **"RAN에 최소한의 자원만 주고, 나머지를 AI에 줘서**
-> **GPU 활용률과 AI 처리량을 극대화하되 RAN SLA를 지키는**
-> **동적 리소스 관리를 어떻게 할 것인가?"**
+- 모델 크기(parameter 수)가 아니라 **같은 GPU에서 얼마나 bandwidth를 쓰는가**가 결정
+- Qwen-72B(4GPU TP) = 1.33x vs GPT-2(1GPU) = 3.50x → tensor parallel 분산이 간섭 감소
+- HBM stress와 간섭의 선형 관계는 L1 부하에 비례하여 기울기가 가팔라짐
 
-이를 위해 필요한 것:
-1. **실제 기지국 수준의 L1 부하 재현** (cubb_gpu_test_bench 또는 multi-antenna Sionna 수정)
-2. **동적 트래픽 시나리오** (flash crowd, time-varying cell load)
-3. **수학적 모델**: bandwidth 사용량 vs L1 latency 관계 수식화 (이미 선형 곡선 데이터 있음)
+#### 3. SM 파티셔닝은 현재 실험에서 효과 없음
+
+- 4T4R × 20cell에서도 SM 10%로 줄여도 변화 없음
+- pyAerial의 순차 실행 한계 — 실제 cuPHY runtime은 multi-cell 동시 실행
+- **SM 효과를 보려면 cubb_gpu_test_bench 또는 CUDA stream 병렬화 필요**
+
+#### 4. 간섭 시작/해소는 즉각적
+
+- AI 투입 → L1 즉시 느려짐, AI 제거 → L1 즉시 복구
+- Reactive 오케스트레이션 정책이 유효
+
+#### 5. 현재 한계 및 다음 단계
+
+> **현재 4T4R × 20cell (HBM ~23%)은 실제 기지국(30-40%)에 근접하지만 아직 미달.**
+> 더 realistic한 부하를 만들려면:
+> - cell 수 증가 (30~40cell) 또는 higher MIMO (4T8R, 4T16R)
+> - cubb_gpu_test_bench로 실제 multi-cell 동시 실행 (SM 병렬화)
+> - 이를 통해 SM 파티셔닝의 효과도 관찰 가능
 
 ### Exp-4: MIG Emulator (MPS 기반)
 
