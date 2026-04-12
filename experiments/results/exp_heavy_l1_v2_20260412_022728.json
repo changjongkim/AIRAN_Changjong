@@ -1,0 +1,180 @@
+{
+  "results": [
+    {
+      "label": "1T2R_1cell_mcs2",
+      "num_cells": 1,
+      "num_tx": 1,
+      "num_rx": 2,
+      "mcs": 2,
+      "hbm_pct": 2.4,
+      "mean_ms": 0.7056831995646159,
+      "per_cell_ms": 0.7056831995646159,
+      "p99_ms": 0.7273916745185852
+    },
+    {
+      "label": "1T2R_4cell_mcs2",
+      "num_cells": 4,
+      "num_tx": 1,
+      "num_rx": 2,
+      "mcs": 2,
+      "hbm_pct": 6.6,
+      "mean_ms": 2.7525834719340008,
+      "per_cell_ms": 0.6881458679835002,
+      "p99_ms": 2.811726418733597
+    },
+    {
+      "label": "1T2R_8cell_mcs2",
+      "num_cells": 8,
+      "num_tx": 1,
+      "num_rx": 2,
+      "mcs": 2,
+      "hbm_pct": 10.7,
+      "mean_ms": 5.517257608970007,
+      "per_cell_ms": 0.6896572011212508,
+      "p99_ms": 5.637530897259713
+    },
+    {
+      "label": "1T2R_16cell_mcs2",
+      "num_cells": 16,
+      "num_tx": 1,
+      "num_rx": 2,
+      "mcs": 2,
+      "hbm_pct": 18.9,
+      "mean_ms": 10.787602142492931,
+      "per_cell_ms": 0.6742251339058082,
+      "p99_ms": 10.88760248541832
+    },
+    {
+      "label": "1T2R_20cell_mcs2",
+      "num_cells": 20,
+      "num_tx": 1,
+      "num_rx": 2,
+      "mcs": 2,
+      "hbm_pct": 23.0,
+      "mean_ms": 13.195587158203125,
+      "per_cell_ms": 0.6597793579101563,
+      "p99_ms": 14.93799735248089
+    },
+    {
+      "label": "1T4R_1cell_mcs2",
+      "num_cells": 1,
+      "num_tx": 1,
+      "num_rx": 4,
+      "mcs": 2,
+      "hbm_pct": 4.6,
+      "mean_ms": 3.221994662284851,
+      "per_cell_ms": 3.221994662284851,
+      "p99_ms": 3.228899509906769
+    },
+    {
+      "label": "1T4R_4cell_mcs2",
+      "num_cells": 4,
+      "num_tx": 1,
+      "num_rx": 4,
+      "mcs": 2,
+      "hbm_pct": 7.5,
+      "mean_ms": 2.8566058735052744,
+      "per_cell_ms": 0.7141514683763186,
+      "p99_ms": 2.9362515270709992
+    },
+    {
+      "label": "1T4R_8cell_mcs2",
+      "num_cells": 8,
+      "num_tx": 1,
+      "num_rx": 4,
+      "mcs": 2,
+      "hbm_pct": 11.4,
+      "mean_ms": 5.784868262211481,
+      "per_cell_ms": 0.7231085327764352,
+      "p99_ms": 5.963777631521225
+    },
+    {
+      "label": "1T4R_16cell_mcs2",
+      "num_cells": 16,
+      "num_tx": 1,
+      "num_rx": 4,
+      "mcs": 2,
+      "hbm_pct": 19.2,
+      "mean_ms": 11.461832511425019,
+      "per_cell_ms": 0.7163645319640637,
+      "p99_ms": 11.58292056798935
+    },
+    {
+      "label": "1T8R_1cell_mcs2",
+      "num_cells": 1,
+      "num_tx": 1,
+      "num_rx": 8,
+      "mcs": 2,
+      "hbm_pct": 4.6,
+      "mean_ms": 3.361605342229207,
+      "per_cell_ms": 3.361605342229207,
+      "p99_ms": 4.272003989219666
+    },
+    {
+      "label": "1T8R_4cell_mcs2",
+      "num_cells": 4,
+      "num_tx": 1,
+      "num_rx": 8,
+      "mcs": 2,
+      "hbm_pct": 7.5,
+      "mean_ms": 4.221234138806661,
+      "per_cell_ms": 1.0553085347016653,
+      "p99_ms": 4.413281022310257
+    },
+    {
+      "label": "1T8R_8cell_mcs2",
+      "num_cells": 8,
+      "num_tx": 1,
+      "num_rx": 8,
+      "mcs": 2,
+      "hbm_pct": 11.4,
+      "mean_ms": 8.833474123477936,
+      "per_cell_ms": 1.104184265434742,
+      "p99_ms": 10.808492784500123
+    },
+    {
+      "label": "1T16R_1cell_mcs2",
+      "num_cells": 1,
+      "num_tx": 1,
+      "num_rx": 16,
+      "mcs": 2,
+      "hbm_pct": 4.7,
+      "mean_ms": 1.3928810636202493,
+      "per_cell_ms": 1.3928810636202493,
+      "p99_ms": 1.4057343626022338
+    },
+    {
+      "label": "1T16R_4cell_mcs2",
+      "num_cells": 4,
+      "num_tx": 1,
+      "num_rx": 16,
+      "mcs": 2,
+      "hbm_pct": 7.6,
+      "mean_ms": 6.078495987256368,
+      "per_cell_ms": 1.519623996814092,
+      "p99_ms": 12.267341083288196
+    },
+    {
+      "label": "1T2R_8cell_mcs15",
+      "num_cells": 8,
+      "num_tx": 1,
+      "num_rx": 2,
+      "mcs": 15,
+      "hbm_pct": 11.5,
+      "mean_ms": 5.065557326873144,
+      "per_cell_ms": 0.633194665859143,
+      "p99_ms": 5.323342687487602
+    },
+    {
+      "label": "1T2R_16cell_mcs15",
+      "num_cells": 16,
+      "num_tx": 1,
+      "num_rx": 2,
+      "mcs": 15,
+      "hbm_pct": 19.3,
+      "mean_ms": 10.159994665781657,
+      "per_cell_ms": 0.6349996666113535,
+      "p99_ms": 10.308843942284584
+    }
+  ]
+}

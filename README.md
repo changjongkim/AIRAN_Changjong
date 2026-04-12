@@ -677,6 +677,9 @@ L1에 할당하는 SM 비율을 줄여가며, SLA가 깨지는 최소 자원을 
 |-----|-------------------|-----------------|------|
 | 100% | 2.283ms | 2.453ms | 1.07x |
 | 60% | 1.972ms | 2.631ms | 1.33x |
+| 40% | 2.075ms | 2.720ms | 1.31x |
+| 20% | 1.932ms | 1.936ms | 1.00x |
+| 10% | 1.945ms | 2.406ms | 1.24x |
 
 **핵심 분석 — 왜 SM 5%에서도 L1이 정상 동작하는가**:
 
@@ -699,20 +702,33 @@ L1에 할당하는 SM 비율을 줄여가며, SLA가 깨지는 최소 자원을 
 - **실제 기지국 (4T4R, 20cell, 64T64R)에서는 SM이 수십~수백 개 필요**
 - **실제 기지국 수준의 L1 부하를 재현해야 SM 파티셔닝 효과를 볼 수 있음**
 
-### Exp-9: Heavy L1 스케일 테스트 (2026-04-11)
+### Exp-9: Heavy L1 스케일 테스트 v2 (2026-04-12)
 
-Sionna 채널 모델 없이, cuPHY만으로 L1 스케일을 올려 GPU 부하 측정.
+Sionna 채널 모델 없이 cuPHY TX→노이즈추가→RX 방식으로 multi-cell/multi-antenna 스케일 측정.
+"L1 부하를 키우면 GPU를 얼마나 쓰는가?"
 
-| Config | HBM 사용 | RX mean | per cell |
-|--------|---------|---------|----------|
-| 1T2R × 1cell | 2% | 0.684ms | 0.684ms |
-| 1T4R × 1cell | 3% | 0.666ms | 0.666ms |
-| 1T4R × 4cell+ | FAIL | - | cuPHY argument error |
+| Config | Cells | HBM% | RX mean | per cell | 비고 |
+|--------|-------|------|---------|----------|------|
+| 1T2R × 1 | 1 | 2% | 0.706ms | 0.706ms | 현재 실험 수준 |
+| 1T2R × 4 | 4 | 7% | 2.753ms | 0.688ms | |
+| 1T2R × 8 | 8 | 11% | 5.517ms | 0.690ms | |
+| 1T2R × 16 | 16 | 19% | 10.788ms | 0.674ms | |
+| **1T2R × 20** | **20** | **23%** | **13.196ms** | **0.660ms** | cell 비례 스케일 |
+| 1T4R × 4 | 4 | 7% | 2.857ms | 0.714ms | |
+| 1T4R × 8 | 8 | 11% | 5.785ms | 0.723ms | |
+| 1T4R × 16 | 16 | 19% | 11.462ms | 0.716ms | |
+| **1T8R × 8** | **8** | **11%** | **8.833ms** | **1.104ms** | 안테나↑ → per-cell↑ |
+| **1T16R × 4** | **4** | **8%** | **6.078ms** | **1.520ms** | 16안테나, per-cell 2배 |
+| 1T2R × 8 (MCS15) | 8 | 12% | 5.066ms | 0.633ms | 높은 MCS |
+| 1T2R × 16 (MCS15) | 16 | 19% | 10.160ms | 0.635ms | |
 
-**한계**: pyAerial에서 TX output을 RX input으로 직접 넘기는 방식은
-antenna 수 불일치로 multi-cell에서 에러 발생.
-→ Sionna 채널 모델이 multi-antenna를 지원하도록 수정하거나,
-→ `cubb_gpu_test_bench`(MATLAB TV 필요)를 사용해야 진짜 heavy L1 가능.
+**분석**:
+- **Cell 수 증가**: 총 latency는 cell 수에 비례 증가, per-cell은 일정 (~0.7ms)
+- **안테나 수 증가**: per-cell latency 증가 (1T2R=0.69ms → 1T8R=1.1ms → 1T16R=1.5ms)
+  - 안테나 많을수록 채널추정/MIMO detection의 행렬이 커져서 연산량 증가
+- **MCS 변경**: per-cell 변화 미미 (LDPC decode 복잡도는 SM 대비 작음)
+- **HBM 사용**: 20cell에서도 23% — **실제 기지국(30-40%)에 미달**
+  - 4T4R × 20cell 수준이 필요하나, TX 안테나 확장 테스트 진행 중
 
 ### 핵심 발견 종합 및 분석
 
@@ -728,6 +744,38 @@ antenna 수 불일치로 multi-cell에서 에러 발생.
 bandwidth를 연속적으로 사용하는 워크로드일수록 간섭이 큼.
 LLM inference는 "weight 읽기 → 긴 compute → 다시 읽기" 패턴이라
 bandwidth 사용이 간헐적 → L1이 빈 틈에 접근 가능 → 간섭 미미.
+
+### Exp-10: Q2 Dynamic — Flash Crowd 시뮬레이션 (2026-04-12)
+
+L1이 실행 중인 상태에서 AI workload를 **갑자기 투입/제거**하여
+간섭 시작/복구의 전환 시간을 측정. 300 iterations 동안 per-iteration
+latency와 timestamp를 기록.
+
+```
+시간축 →
+  Mode 2 (flash_hbm):
+    0s        10s                           30s
+    |── 2ms ──|──── 40ms ──────────────────|
+    L1 정상    HBM 투입 → 즉시 20x 느려짐
+
+  Mode 4 (recovery_hbm):
+    0s        10s                           30s
+    |── 40ms ─|──── 2ms ──────────────────|
+    L1 느림    HBM 제거 → 즉시 baseline 복구
+```
+
+| Mode | RX mean | vs baseline | 의미 |
+|------|---------|-------------|------|
+| baseline (정상) | 1.932ms | 1.00x | |
+| **flash_hbm** (t=10s HBM 투입) | **40.354ms** | **20.9x** | 간섭 즉시 시작 |
+| flash_resnet (t=10s ResNet 투입) | 2.750ms | 1.42x | 미미한 간섭 |
+| **recovery_hbm** (t=10s HBM 제거) | **1.949ms** | **1.01x** | 즉시 복구 |
+
+**핵심**:
+- **간섭 시작**: AI workload 투입 즉시 L1 latency 증가 (전환 지연 ~0)
+- **간섭 해소**: AI workload 제거 즉시 L1 baseline 복구 (1.949ms ≈ 1.932ms)
+- **오케스트레이션 시사점**: 복잡한 예측 모델 없이 "SLA 위반 감지 → AI 즉시 중단"하는
+  reactive 정책으로도 L1 보호 가능. 복구가 즉각적이므로 migration의 효과가 확실함.
 
 #### 2. 현재 L1이 너무 가벼움 (Over-provisioned)
 

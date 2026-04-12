@@ -1,0 +1,89 @@
+============================================================
+Q2: Dynamic Workload — Flash Crowd Simulation
+============================================================
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+
+==========================================
+MODE: baseline_steady
+==========================================
+  [0/300] t=1.6s RX=2.989ms
+  [50/300] t=2.6s RX=0.840ms
+  [100/300] t=3.7s RX=0.836ms
+  [150/300] t=4.7s RX=1.057ms
+  [200/300] t=5.7s RX=0.837ms
+  [250/300] t=6.7s RX=0.835ms
+
+RESULT: dyn_baseline
+  RX mean:  1.932 ms
+  RX P99:   11.046 ms
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_dyn_baseline_20260412_022912.json
+02:29:04.998885 cuphy.hpp:122    CON[783071] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5644a2b98c60).
+02:29:05.184393 cuphy.hpp:122    CON[783071] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5644aa99bcf0).
+02:29:05.184394 pusch_rx.cpp:1227 CON[783071] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: flash_hbm (HBM starts mid-run)
+==========================================
+>>> INJECTING HBM STRESS at t=10s <<<
+  [0/300] t=0.9s RX=0.905ms
+[HBM stress] GPU0 alloc=4.0GB running for 60s
+  [50/300] t=3.4s RX=45.564ms
+  [100/300] t=14.7s RX=50.116ms
+  [150/300] t=26.1s RX=45.599ms
+  [200/300] t=37.4s RX=45.551ms
+  [250/300] t=48.7s RX=50.088ms
+
+RESULT: dyn_flash_hbm
+  RX mean:  40.354 ms
+  RX P99:   55.840 ms
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_dyn_flash_hbm_20260412_023035.json
+02:29:35.346209 cuphy.hpp:122    CON[784655] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5558d7637b10).
+02:29:35.462695 cuphy.hpp:122    CON[784655] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5558df43c090).
+02:29:35.462695 pusch_rx.cpp:1227 CON[784655] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: flash_resnet (ResNet starts mid-run)
+==========================================
+>>> INJECTING ResNet-50 bs=128 at t=10s <<<
+  [0/300] t=0.9s RX=0.907ms
+  [50/300] t=2.0s RX=2.614ms
+  [100/300] t=3.1s RX=0.892ms
+  [150/300] t=4.2s RX=0.900ms
+  [200/300] t=5.3s RX=0.920ms
+[ResNet-50] GPU0 bs=128 HBM=5.6/85.1GB, running for 60s
+  [250/300] t=6.6s RX=3.975ms
+
+RESULT: dyn_flash_resnet
+  RX mean:  2.750 ms
+  RX P99:   16.646 ms
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_dyn_flash_resnet_20260412_023111.json
+02:31:03.239462 cuphy.hpp:122    CON[785802] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f144202c0).
+02:31:03.339107 cuphy.hpp:122    CON[785802] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x562f1c223380).
+02:31:03.339108 pusch_rx.cpp:1227 CON[785802] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: recovery_hbm (HBM killed mid-run)
+==========================================
+[HBM stress] GPU0 alloc=4.0GB running for 120s
+>>> KILLING HBM STRESS at t=10s <<<
+  [0/300] t=0.9s RX=0.849ms
+  [50/300] t=1.9s RX=3.223ms
+  [100/300] t=3.0s RX=0.842ms
+  [150/300] t=4.0s RX=0.843ms
+  [200/300] t=5.1s RX=0.839ms
+  [250/300] t=6.1s RX=0.852ms
+
+RESULT: dyn_recovery_hbm
+  RX mean:  1.949 ms
+  RX P99:   8.088 ms
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_dyn_recovery_hbm_20260412_023147.json
+02:31:40.553219 cuphy.hpp:122    CON[786983] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x56045042f880).
+02:31:40.653322 cuphy.hpp:122    CON[786983] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x560458233750).
+02:31:40.653322 pusch_rx.cpp:1227 CON[786983] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+============================================================
+ALL MODES COMPLETE
+============================================================
