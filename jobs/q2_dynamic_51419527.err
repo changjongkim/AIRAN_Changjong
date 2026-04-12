@@ -1,0 +1,16 @@
+  File "/tmp/run_l1_dynamic.py", line 29
+    from aerial.phy5g.config import *
+                                    ^
+SyntaxError: import * only allowed at module level
+  File "/tmp/run_l1_dynamic.py", line 29
+    from aerial.phy5g.config import *
+                                    ^
+SyntaxError: import * only allowed at module level
+  File "/tmp/run_l1_dynamic.py", line 29
+    from aerial.phy5g.config import *
+                                    ^
+SyntaxError: import * only allowed at module level
+  File "/tmp/run_l1_dynamic.py", line 29
+    from aerial.phy5g.config import *
+                                    ^
+SyntaxError: import * only allowed at module level

@@ -1,0 +1,187 @@
+============================================================
+ResNet-50 Batch Size Sweep — Interference Threshold
+============================================================
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+
+==========================================
+MODE: baseline
+==========================================
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: resnet_baseline
+  RX mean:  2.413 ms
+  RX P50:   1.078 ms
+  RX P95:   8.239 ms
+  RX P99:   13.141 ms
+  Jitter:   1.2033
+  Miss>1ms: 65.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_baseline_20260412_020614.json
+02:05:59.176732 cuphy.hpp:122    CON[781182] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55efb90c0db0).
+02:05:59.357470 cuphy.hpp:122    CON[781182] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55efc0ec4df0).
+02:05:59.357470 pusch_rx.cpp:1227 CON[781182] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: resnet_bs1
+==========================================
+ResNet bs=1 PID=782977
+[ResNet-50] GPU0 bs=1 HBM=1.8/85.1GB, running for 120s
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 4.1/85.1GB
+
+RESULT: resnet_bs1
+  RX mean:  2.120 ms
+  RX P50:   1.104 ms
+  RX P95:   7.983 ms
+  RX P99:   12.632 ms
+  Jitter:   1.2126
+  Miss>1ms: 63.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_bs1_20260412_020651.json
+02:06:41.347117 cuphy.hpp:122    CON[783250] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5624a6eb5a60).
+02:06:41.465799 cuphy.hpp:122    CON[783250] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5624aecba2f0).
+02:06:41.465799 pusch_rx.cpp:1227 CON[783250] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: resnet_bs8
+==========================================
+ResNet bs=8 PID=783903
+[ResNet-50] GPU0 bs=8 HBM=1.9/85.1GB, running for 120s
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 4.2/85.1GB
+
+RESULT: resnet_bs8
+  RX mean:  2.384 ms
+  RX P50:   1.240 ms
+  RX P95:   8.112 ms
+  RX P99:   12.117 ms
+  Jitter:   1.0918
+  Miss>1ms: 80.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_bs8_20260412_020735.json
+02:07:25.840268 cuphy.hpp:122    CON[784498] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x559fe6151570).
+02:07:25.941282 cuphy.hpp:122    CON[784498] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x559fedf54db0).
+02:07:25.941282 pusch_rx.cpp:1227 CON[784498] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: resnet_bs16
+==========================================
+ResNet bs=16 PID=785125
+[ResNet-50] GPU0 bs=16 HBM=2.0/85.1GB, running for 120s
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 4.3/85.1GB
+
+RESULT: resnet_bs16
+  RX mean:  2.615 ms
+  RX P50:   1.431 ms
+  RX P95:   8.186 ms
+  RX P99:   10.209 ms
+  Jitter:   0.9563
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_bs16_20260412_020814.json
+02:08:04.238990 cuphy.hpp:122    CON[785403] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x559473e0dc40).
+02:08:04.340941 cuphy.hpp:122    CON[785403] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55947bc11b60).
+02:08:04.340942 pusch_rx.cpp:1227 CON[785403] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: resnet_bs32
+==========================================
+ResNet bs=32 PID=786027
+[ResNet-50] GPU0 bs=32 HBM=2.3/85.1GB, running for 120s
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 4.6/85.1GB
+
+RESULT: resnet_bs32
+  RX mean:  2.609 ms
+  RX P50:   1.568 ms
+  RX P95:   8.435 ms
+  RX P99:   8.763 ms
+  Jitter:   0.8565
+  Miss>1ms: 99.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_bs32_20260412_020852.json
+02:08:41.909126 cuphy.hpp:122    CON[786307] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x564d83dbef50).
+02:08:42.015314 cuphy.hpp:122    CON[786307] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x564d8bbc3360).
+02:08:42.015315 pusch_rx.cpp:1227 CON[786307] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: resnet_bs64
+==========================================
+ResNet bs=64 PID=786934
+[ResNet-50] GPU0 bs=64 HBM=2.8/85.1GB, running for 120s
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 5.2/85.1GB
+
+RESULT: resnet_bs64
+  RX mean:  3.295 ms
+  RX P50:   2.278 ms
+  RX P95:   9.073 ms
+  RX P99:   14.796 ms
+  Jitter:   0.9306
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_bs64_20260412_020936.json
+02:09:26.925946 cuphy.hpp:122    CON[787211] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f4c9e35330).
+02:09:27.042763 cuphy.hpp:122    CON[787211] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f4d1c386e0).
+02:09:27.042763 pusch_rx.cpp:1227 CON[787211] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: resnet_bs128
+==========================================
+ResNet bs=128 PID=788055
+[ResNet-50] GPU0 bs=128 HBM=3.9/85.1GB, running for 120s
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 6.2/85.1GB
+
+RESULT: resnet_bs128
+  RX mean:  4.186 ms
+  RX P50:   3.793 ms
+  RX P95:   8.926 ms
+  RX P99:   11.484 ms
+  Jitter:   0.5475
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_bs128_20260412_021014.json
+02:10:03.615800 cuphy.hpp:122    CON[788333] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x556adf97a950).
+02:10:03.717962 cuphy.hpp:122    CON[788333] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x556ae777f1d0).
+02:10:03.717963 pusch_rx.cpp:1227 CON[788333] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: resnet_bs256
+==========================================
+ResNet bs=256 PID=788962
+[ResNet-50] GPU0 bs=256 HBM=6.0/85.1GB, running for 120s
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 8.4/85.1GB
+
+RESULT: resnet_bs256
+  RX mean:  5.803 ms
+  RX P50:   6.288 ms
+  RX P95:   9.675 ms
+  RX P99:   14.080 ms
+  Jitter:   0.4745
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_bs256_20260412_021055.json
+02:10:39.596245 cuphy.hpp:122    CON[789240] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560856067660).
+02:10:39.719187 cuphy.hpp:122    CON[789240] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x56085de6afd0).
+02:10:39.719187 pusch_rx.cpp:1227 CON[789240] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: baseline_final
+==========================================
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: resnet_baseline_final
+  RX mean:  2.295 ms
+  RX P50:   1.080 ms
+  RX P95:   8.109 ms
+  RX P99:   16.113 ms
+  Jitter:   1.4268
+  Miss>1ms: 62.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_resnet_baseline_final_20260412_021128.json
+02:11:18.696573 cuphy.hpp:122    CON[789865] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0d2fdd220).
+02:11:18.795001 cuphy.hpp:122    CON[789865] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55c0dade02f0).
+02:11:18.795001 pusch_rx.cpp:1227 CON[789865] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+============================================================
+ALL MODES COMPLETE
+============================================================

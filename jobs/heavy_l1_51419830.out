@@ -1,0 +1,8 @@
+Testing heavy L1 configs...
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+[OK] 1T2R_1cell: 1cells × 1T2R  HBM=2%  RX mean=0.684ms  (0.684ms/cell)
+[OK] 1T4R_1cell: 1cells × 1T4R  HBM=3%  RX mean=0.666ms  (0.666ms/cell)
+[FAIL] 1T4R_4cell: Function cuphyRunPuschRx() returned CUPHY_STATUS_INVALID_ARGUMENT: An invalid argument was provided

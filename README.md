@@ -631,34 +631,129 @@ L1과 GPU0를 공유.
 Qwen-72B가 Node0의 4GPU에서 0.79 it/s로 inference하는 동안
 L1은 간섭을 받지 않음 (0.89x).
 
-### 핵심 발견 종합
+### Exp-7: ResNet-50 Batch Size Sweep (2026-04-11)
 
-1. **HBM bandwidth 연속 stress → 선형 간섭** (0.1GB=1.6x ~ 8GB=47x)
-   - 이는 MIG에서도 bandwidth 공유이므로 동일하게 발생 가능
+ResNet은 LLM과 달리 conv layer마다 activation을 읽고 쓰므로
+batch가 커지면 bandwidth 사용이 연속적으로 증가.
 
-2. **LLM inference (GPT-2 ~ Qwen-72B) → 간섭 미미 (1.0~1.6x)**
-   - 모델 크기에 비례하여 미세하게 증가하지만 실질적 영향 작음
-   - LLM inference의 memory access 패턴이 간헐적 (burst read + compute)
+| Batch Size | RX mean | vs baseline | 비고 |
+|------------|---------|-------------|------|
+| baseline | 2.413ms | 1.00x | |
+| bs=1 | 2.120ms | 0.88x | |
+| bs=8 | 2.384ms | 0.99x | |
+| bs=16 | 2.615ms | 1.08x | |
+| bs=32 | 2.609ms | 1.08x | |
+| **bs=64** | **3.295ms** | **1.37x** | 간섭 시작 |
+| **bs=128** | **4.186ms** | **1.73x** | |
+| **bs=256** | **5.803ms** | **2.40x** | 유의미한 간섭 |
+| baseline_final | 2.295ms | 0.95x | |
 
-3. **ResNet-50 + 8cell → 1.88x 간섭**
-   - compute-heavy 워크로드가 L1 부하 높을 때 유의미한 간섭
+**핵심**: ResNet은 batch 키우면 간섭이 비례하여 증가 (bs=256에서 2.40x).
+LLM (Qwen-72B=1.6x)보다 큰 간섭. CNN의 activation read/write가 bandwidth를
+더 연속적으로 사용하기 때문.
 
-4. **GPU/노드 분리 → 모든 경우 간섭 제거**
+### Exp-8: Q1 — L1 최소 자원 (SM% Sweep, 2026-04-11)
 
-5. **현재 실험의 한계**:
+L1에 할당하는 SM 비율을 줄여가며, SLA가 깨지는 최소 자원을 탐색.
 
-> 현재 실험은 L1과 AI를 MPS로 동시 실행하여 간섭을 측정하고 있으나,
-> **실제 AI-RAN의 구동 철학과 정확히 일치하는지 검증이 필요하다.**
->
-> NVIDIA AI-RAN은:
-> - MIG로 GPU를 물리적 분할 (우리는 MPS 에뮬레이션)
-> - L1 idle 시간에 AI를 time-slicing (우리는 연속 동시 실행)
-> - Kubernetes 오케스트레이션으로 워크로드 관리
->
-> 우리 실험은 "최악의 경우 (동시 실행, 격리 없음)"를 측정한 것이며,
-> 실제 AI-RAN은 이보다 더 나은 격리를 제공할 것으로 예상된다.
-> **따라서 연구의 방향은 "간섭이 있다/없다"가 아니라,
-> "어떤 조건에서 간섭이 발생하며, 임계점은 어디인가"에 집중해야 한다.**
+**Part 1: L1 단독 (AI 없음)**
+
+| SM% | SMs | RX mean | vs 100% |
+|-----|-----|---------|---------|
+| 100% | 108 | 2.283ms | 1.00x |
+| 80% | 86 | 2.067ms | 0.91x |
+| 60% | 64 | 1.972ms | 0.86x |
+| 50% | 54 | 2.058ms | 0.90x |
+| 40% | 42 | 2.075ms | 0.91x |
+| 30% | 32 | 2.075ms | 0.91x |
+| 20% | 20 | 1.932ms | 0.85x |
+| 14% | 15 | 2.289ms | 1.00x |
+| 10% | 10 | 1.945ms | 0.85x |
+| **5%** | **5** | **2.288ms** | **1.00x** |
+
+**Part 2: L1 + Qwen-72B 동시 실행**
+
+| SM% | RX mean (L1 only) | RX mean (+ 72B) | 간섭 |
+|-----|-------------------|-----------------|------|
+| 100% | 2.283ms | 2.453ms | 1.07x |
+| 60% | 1.972ms | 2.631ms | 1.33x |
+
+**핵심 분석 — 왜 SM 5%에서도 L1이 정상 동작하는가**:
+
+현재 L1 (1T2R, 1 cell)이 실제로 사용하는 GPU 리소스가 극도로 작기 때문:
+
+```
+1T2R L1이 하는 일:
+  - FFT: 4096-point × 1 안테나    → 아주 작은 연산
+  - 채널추정: 2×1 행렬            → 사실상 스칼라
+  - MIMO detection: 2×1           → trivial
+  - LDPC decode: 1 codeword       → SM 1~2개면 충분
+
+→ L1이 실제로 필요한 SM: ~5개 (108개 중 5%)
+→ SM을 100%든 5%든 L1에 충분하니 변화 없음
+→ L1은 SM-bound가 아니라 memory latency/kernel launch overhead에 bound
+```
+
+이것이 의미하는 것:
+- **현재 1T2R/1cell 설정에서는 SM 파티셔닝(MIG)이 의미 없음**
+- **실제 기지국 (4T4R, 20cell, 64T64R)에서는 SM이 수십~수백 개 필요**
+- **실제 기지국 수준의 L1 부하를 재현해야 SM 파티셔닝 효과를 볼 수 있음**
+
+### Exp-9: Heavy L1 스케일 테스트 (2026-04-11)
+
+Sionna 채널 모델 없이, cuPHY만으로 L1 스케일을 올려 GPU 부하 측정.
+
+| Config | HBM 사용 | RX mean | per cell |
+|--------|---------|---------|----------|
+| 1T2R × 1cell | 2% | 0.684ms | 0.684ms |
+| 1T4R × 1cell | 3% | 0.666ms | 0.666ms |
+| 1T4R × 4cell+ | FAIL | - | cuPHY argument error |
+
+**한계**: pyAerial에서 TX output을 RX input으로 직접 넘기는 방식은
+antenna 수 불일치로 multi-cell에서 에러 발생.
+→ Sionna 채널 모델이 multi-antenna를 지원하도록 수정하거나,
+→ `cubb_gpu_test_bench`(MATLAB TV 필요)를 사용해야 진짜 heavy L1 가능.
+
+### 핵심 발견 종합 및 분석
+
+#### 1. 간섭의 원인은 HBM Bandwidth 경쟁
+
+| 워크로드 유형 | bandwidth 패턴 | L1 간섭 |
+|-------------|--------------|---------|
+| HBM stress (연속 copy) | ████████████ (100% 연속) | **47x** |
+| ResNet-50 bs=256 | ██░██░██░██░ (빈번한 activation R/W) | **2.40x** |
+| Qwen-72B inference | ██░░░░██░░░░ (간헐적 weight read) | **1.60x** |
+| GPT-2 inference | █░░░░░█░░░░░ (매우 간헐적) | **1.02x** |
+
+bandwidth를 연속적으로 사용하는 워크로드일수록 간섭이 큼.
+LLM inference는 "weight 읽기 → 긴 compute → 다시 읽기" 패턴이라
+bandwidth 사용이 간헐적 → L1이 빈 틈에 접근 가능 → 간섭 미미.
+
+#### 2. 현재 L1이 너무 가벼움 (Over-provisioned)
+
+```
+현재 설정:         1T2R, 1cell → SM ~5%, HBM ~2% 사용
+NVIDIA PoC 논문:   4T4R         → GPU 30-40% 사용
+실제 기지국:       64T64R, 20cell → GPU 70-90% 사용
+
+→ 현재 L1이 GPU의 ~5%만 쓰니까
+  나머지 95%에서 AI가 뭘 하든 L1에 영향 없음
+→ "간섭이 없다"가 아니라 "L1이 너무 작아서 간섭이 보이지 않는 것"
+```
+
+#### 3. 연구 방향: "안전 마진을 얼마나 줄일 수 있는가"
+
+현재 시스템이 over-provisioned라면, 연구 질문을 전환해야 함:
+
+> **"간섭이 있다/없다"가 아니라,**
+> **"RAN에 최소한의 자원만 주고, 나머지를 AI에 줘서**
+> **GPU 활용률과 AI 처리량을 극대화하되 RAN SLA를 지키는**
+> **동적 리소스 관리를 어떻게 할 것인가?"**
+
+이를 위해 필요한 것:
+1. **실제 기지국 수준의 L1 부하 재현** (cubb_gpu_test_bench 또는 multi-antenna Sionna 수정)
+2. **동적 트래픽 시나리오** (flash crowd, time-varying cell load)
+3. **수학적 모델**: bandwidth 사용량 vs L1 latency 관계 수식화 (이미 선형 곡선 데이터 있음)
 
 ### Exp-4: MIG Emulator (MPS 기반)
 

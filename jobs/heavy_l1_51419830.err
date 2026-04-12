@@ -1,0 +1,8 @@
+Exception ignored in: <function PdschTx.__del__ at 0x7fa69594ce50>
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/phy5g/pdsch/pdsch_tx.py", line 365, in __del__
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/util/cuda.py", line 39, in check_cuda_errors
+RuntimeError: CUDA error code=700
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  an illegal memory access was encountered
+/var/spool/slurmd/job51419830/slurm_script: line 22: 2356171 Aborted                 shifter --image=docker:nvcr.io/nvidia/aerial/aerial-cuda-accelerated-ran:25-3-cubb python3 /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/test_heavy_l1.py
