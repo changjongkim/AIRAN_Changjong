@@ -885,6 +885,7 @@ AI workload를 중단하면 L1이 바로 baseline으로 복구됨.
 > - cubb_gpu_test_bench로 실제 multi-cell 동시 실행 (SM 병렬화)
 > - 이를 통해 SM 파티셔닝의 효과도 관찰 가능
 
+
 ### Exp-4: MIG Emulator (MPS 기반)
 
 **목적**: NVIDIA MIG 파티셔닝의 효과와 한계를 실측. 실제 AI-RAN의 핵심 메커니즘.
@@ -943,6 +944,58 @@ sbatch /pscratch/sd/s/sgkim/kcj/AI-RAN/jobs/run_mig_emu.sh
 # 개별 모드 실행 (job간 MPS crash 격리)
 sbatch /pscratch/sd/s/sgkim/kcj/AI-RAN/jobs/submit_all.sh
 ```
+
+### Exp-14: 40GB GPU — Realistic PoC Comparison (4T4R × 20cell, 2026-04-12)
+
+**NVIDIA PoC 논문과 동일한 GPU 클래스 (A100-40GB)에서 실험.**
+4T4R × 20cell = HBM 44% 사용 → 실제 기지국(30-40%) 이상의 부하.
+
+#### Interference (baseline 대비)
+
+| Mode | RX mean | per cell | vs baseline |
+|------|---------|----------|-------------|
+| **baseline** | **15.068ms** | 0.753ms | **1.00x** |
+| + HBM 2GB | 611.403ms | 30.570ms | **40.57x** |
+| + GPT-2 (124M, same GPU) | 58.278ms | 2.914ms | **3.87x** |
+| + ResNet-50 bs128 (same GPU) | 61.202ms | 3.060ms | **4.06x** |
+| + Qwen-7B (7B, same GPU) | 22.324ms | 1.116ms | **1.48x** |
+| baseline_final | 14.979ms | 0.749ms | 0.99x ✅ |
+
+#### SM% Sweep (baseline 대비)
+
+| SM% | SMs | RX mean | vs 100% |
+|-----|-----|---------|---------|
+| 100% | 108 | 16.474ms | **1.00x** |
+| 50% | 54 | 16.421ms | **1.00x** |
+| 30% | 32 | 17.176ms | **1.04x** |
+| 20% | 20 | 16.570ms | **1.01x** |
+| 10% | 10 | 17.010ms | **1.03x** |
+
+#### Threshold (baseline 대비)
+
+| HBM Copy | RX mean | vs baseline |
+|----------|---------|-------------|
+| baseline | 15.979ms | **1.00x** |
+| 0.1GB | 70.629ms | **4.42x** |
+| 0.5GB | 186.338ms | **11.66x** |
+| 1.0GB | 337.473ms | **21.12x** |
+| 2.0GB | 612.338ms | **38.32x** |
+| baseline_final | 15.896ms | 0.99x ✅ |
+
+#### 40GB vs 80GB 비교 (동일 4T4R × 20cell)
+
+| 항목 | 80GB GPU | 40GB GPU |
+|------|---------|---------|
+| HBM 사용률 | 22% (18.7/85.1GB) | **44% (18.7/42.4GB)** |
+| + GPT-2 간섭 | 3.50x | **3.87x** |
+| + ResNet 간섭 | 3.27x | **4.06x** |
+| + HBM 0.1GB 간섭 | 3.55x | **4.42x** |
+| + HBM 2.0GB 간섭 | 30.72x | **38.32x** |
+| SM 10% 영향 | 1.04x | 1.03x |
+
+**40GB GPU가 80GB보다 모든 항목에서 간섭이 ~1.2배 더 큼.**
+HBM 용량이 작으면 같은 AI workload에 대해 bandwidth 경쟁 비율이 높아지기 때문.
+**40GB 환경이 실제 AI-RAN(NVIDIA PoC) 조건에 더 가깝고, 간섭도 더 심각.**
 
 ## 6. 연구 방향 정리
 
