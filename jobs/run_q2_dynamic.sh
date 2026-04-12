@@ -55,7 +55,9 @@ stop_mps() {
 
 # Dynamic L1 measurement script — measures per-iteration latency
 # and records timestamps so we can see the transition point
-cat > /tmp/run_l1_dynamic.py << 'PYEOF'
+DYN_SCRIPT=/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_dynamic.py
+# (dynamic script is now a proper file, not inline heredoc)
+cat > /dev/null << 'PYEOF'
 import os, sys, json, time, datetime
 sys.stdout.reconfigure(line_buffering=True)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -168,7 +170,7 @@ echo "=========================================="
 echo "MODE: baseline_steady"
 echo "=========================================="
 start_mps baseline
-shifter --image=$IMAGE python3 /tmp/run_l1_dynamic.py dyn_baseline
+shifter --image=$IMAGE python3 $DYN_SCRIPT dyn_baseline
 stop_mps
 echo ""
 
@@ -178,7 +180,7 @@ echo "MODE: flash_hbm (HBM starts mid-run)"
 echo "=========================================="
 start_mps flash_hbm
 # Start L1 in background
-shifter --image=$IMAGE python3 /tmp/run_l1_dynamic.py dyn_flash_hbm &
+shifter --image=$IMAGE python3 $DYN_SCRIPT dyn_flash_hbm &
 L1_PID=$!
 # Wait 10 seconds, then start HBM stress
 sleep 10
@@ -196,7 +198,7 @@ echo "=========================================="
 echo "MODE: flash_resnet (ResNet starts mid-run)"
 echo "=========================================="
 start_mps flash_resnet
-shifter --image=$IMAGE python3 /tmp/run_l1_dynamic.py dyn_flash_resnet &
+shifter --image=$IMAGE python3 $DYN_SCRIPT dyn_flash_resnet &
 L1_PID=$!
 sleep 10
 echo ">>> INJECTING ResNet-50 bs=128 at t=10s <<<"
@@ -215,7 +217,7 @@ start_mps recovery
 PYTHONPATH=$PYTHONPATH shifter --image=$IMAGE python3 $HBM 0 120 4 &
 HBM_PID=$!
 sleep 8
-shifter --image=$IMAGE python3 /tmp/run_l1_dynamic.py dyn_recovery_hbm &
+shifter --image=$IMAGE python3 $DYN_SCRIPT dyn_recovery_hbm &
 L1_PID=$!
 sleep 10
 echo ">>> KILLING HBM STRESS at t=10s <<<"
