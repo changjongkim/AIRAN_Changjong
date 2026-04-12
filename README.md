@@ -570,36 +570,95 @@ NVIDIA AI-RAN PoC 논문과 동일한 워크로드 유형으로 비교.
 | diff GPU + HBM stress | 2.216ms | 1.08x | 분리 → 간섭 없음 |
 | diff GPU + GPT-2 | 2.123ms | 1.03x | 분리 → 변화 없음 |
 
-### Exp-3: Multi-Node (2 Nodes, 2026-04-10)
+### Exp-3: Bandwidth Threshold 곡선 (2026-04-10)
 
-| Mode | RX mean | vs baseline |
-|------|---------|-------------|
-| baseline (L1 solo, Node0) | 2.060ms | 1.00x |
-| diff_node (L1:Node0, HBM:Node1) | 1.951ms | 0.95x (변화 없음) |
+HBM copy 크기를 0.1~8GB까지 세밀하게 변화시켜 간섭 임계점 탐색.
 
-### 핵심 발견
+| HBM Copy Size | RX mean | vs baseline |
+|---------------|---------|-------------|
+| baseline | 2.067ms | 1.00x |
+| 0.1 GB | 3.353ms | **1.62x** |
+| 0.2 GB | 4.444ms | **2.15x** |
+| 0.5 GB | 8.289ms | **4.01x** |
+| 1.0 GB | 13.902ms | **6.73x** |
+| 2.0 GB | 24.954ms | **12.07x** |
+| 4.0 GB | 48.730ms | **23.58x** |
+| 8.0 GB | 97.503ms | **47.17x** |
+| baseline_final | 2.133ms | 1.03x |
 
-1. **HBM bandwidth stress는 L1을 7~56배 느리게 만듦 (크기에 비례)**
-   - stress와 간섭의 선형 관계 확인
-   - 이는 MIG에서도 bandwidth가 공유되므로 동일하게 발생할 수 있는 문제
+**핵심**: copy 크기와 간섭은 거의 완벽한 **선형 관계**. 0.1GB copy만으로도 1.62x 간섭 발생.
 
-2. **현실적 AI workload (GPT-2, ResNet-50)는 간섭이 미미 (1.03~1.31x)**
-   - NVIDIA PoC 논문의 "간섭 없다" 주장과 부합
-   - **단, 이는 현재 L1 설정이 가벼운 1T2R/1cell (GPU ~6%)이기 때문**
-   - 실제 기지국 (4T4R, multi-cell, GPU 30-40%) 에서는 간섭이 커질 수 있음
+### Exp-4: 모델 크기별 간섭 비교 (2026-04-10)
 
-3. **GPU 분리 (다른 GPU / 다른 노드) 하면 모든 경우 간섭 완전 제거**
-   - 같은 GPU 내부 리소스 경쟁만이 간섭 원인
+| AI Workload | 파라미터 수 | HBM 사용 | RX mean | vs baseline |
+|-------------|-----------|---------|---------|-------------|
+| 없음 (baseline) | - | - | 2.086ms | 1.00x |
+| GPT-2 | 124M | ~0.5GB | 1.981ms | **0.95x** (간섭 없음) |
+| Qwen-7B | 7B | ~14GB | 2.294ms | **1.10x** |
+| **Qwen-72B** (4GPU TP) | **72B** | **~136GB** | **3.200ms** | **1.60x** |
+| HBM stress 0.5GB | - | 0.5GB | 10.551ms | **5.06x** |
+| HBM stress 2GB | - | 2GB | 31.399ms | **15.05x** |
 
-4. **Baseline 일관성 확인** — 실험 시작과 끝의 baseline 차이 <2%
+**핵심**: 모델이 커질수록 간섭 증가 (124M→1.0x, 7B→1.1x, 72B→1.6x).
+하지만 가장 큰 LLM(72B)도 HBM stress 0.5GB(5.06x)보다 훨씬 작음.
+→ LLM inference의 bandwidth 사용은 간헐적(burst read + compute)이기 때문.
 
-### 한계 및 다음 실험
+### Exp-5: 8-Cell Multi-GPU (1 Node, 4x A100-40GB, 2026-04-10)
 
-> **현재 L1 (1T2R, 1cell)은 GPU를 ~6%만 사용하여 비현실적으로 가벼움.**
-> NVIDIA PoC 논문에서 RAN only가 30-40% GPU를 사용하는 것과 비교하면,
-> 현재 설정에서 GPT-2/ResNet-50의 간섭이 미미한 것은 당연한 결과.
+8 cell L1 (HBM 42% 사용, NVIDIA PoC 논문 수준).
+
+| Mode | RX mean | per cell | vs baseline |
+|------|---------|----------|-------------|
+| baseline | 7.921ms | 0.990ms | 1.00x |
+| same GPU + GPT-2 | 8.058ms | 1.007ms | **1.02x** |
+| **same GPU + ResNet-50** | **14.875ms** | **1.859ms** | **1.88x** |
+| diff GPU + HBM | 8.278ms | 1.035ms | 1.05x |
+| diff GPU + GPT-2 | 7.804ms | 0.976ms | 0.99x |
+| diff GPU + ResNet | 7.596ms | 0.949ms | 0.96x |
+
+### Exp-6: Multi-Node Qwen-72B (2 Nodes × 4 GPU-80GB, 2026-04-10)
+
+**이것이 가장 현실적인 AI-RAN 시나리오**: Qwen-72B가 4GPU 전체를 사용하며
+L1과 GPU0를 공유.
+
+| Mode | RX mean | vs baseline | 비고 |
+|------|---------|-------------|------|
+| baseline | 2.165ms | 1.00x | L1 solo on Node0 |
+| **same_node** (L1+72B on Node0) | **1.928ms** | **0.89x** | Qwen-72B 4GPU TP + L1 공존 |
+| diff_node (72B on Node1) | 1.980ms | 0.91x | 완전 격리 |
+| baseline_final | 1.969ms | 0.91x | |
+
+Qwen-72B가 Node0의 4GPU에서 0.79 it/s로 inference하는 동안
+L1은 간섭을 받지 않음 (0.89x).
+
+### 핵심 발견 종합
+
+1. **HBM bandwidth 연속 stress → 선형 간섭** (0.1GB=1.6x ~ 8GB=47x)
+   - 이는 MIG에서도 bandwidth 공유이므로 동일하게 발생 가능
+
+2. **LLM inference (GPT-2 ~ Qwen-72B) → 간섭 미미 (1.0~1.6x)**
+   - 모델 크기에 비례하여 미세하게 증가하지만 실질적 영향 작음
+   - LLM inference의 memory access 패턴이 간헐적 (burst read + compute)
+
+3. **ResNet-50 + 8cell → 1.88x 간섭**
+   - compute-heavy 워크로드가 L1 부하 높을 때 유의미한 간섭
+
+4. **GPU/노드 분리 → 모든 경우 간섭 제거**
+
+5. **현재 실험의 한계**:
+
+> 현재 실험은 L1과 AI를 MPS로 동시 실행하여 간섭을 측정하고 있으나,
+> **실제 AI-RAN의 구동 철학과 정확히 일치하는지 검증이 필요하다.**
 >
-> **4T4R multi-cell로 L1 부하를 높여야 현실적 간섭 수준을 측정할 수 있음.**
+> NVIDIA AI-RAN은:
+> - MIG로 GPU를 물리적 분할 (우리는 MPS 에뮬레이션)
+> - L1 idle 시간에 AI를 time-slicing (우리는 연속 동시 실행)
+> - Kubernetes 오케스트레이션으로 워크로드 관리
+>
+> 우리 실험은 "최악의 경우 (동시 실행, 격리 없음)"를 측정한 것이며,
+> 실제 AI-RAN은 이보다 더 나은 격리를 제공할 것으로 예상된다.
+> **따라서 연구의 방향은 "간섭이 있다/없다"가 아니라,
+> "어떤 조건에서 간섭이 발생하며, 임계점은 어디인가"에 집중해야 한다.**
 
 ### Exp-4: MIG Emulator (MPS 기반)
 

@@ -1,0 +1,13 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1775835689.444464 1001722 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1775835689.506433 1001722 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1775835689.862331 1001722 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775835689.862376 1001722 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775835689.862391 1001722 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1775835689.862404 1001722 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+I0000 00:00:1775835705.352377 1001722 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 78904 MB memory:  -> device: 0, name: NVIDIA A100-SXM4-80GB, pci bus id: 0000:03:00.0, compute capability: 8.0
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_qwen72b_stress.py", line 21, in <module>
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+ModuleNotFoundError: No module named 'transformers'
+[2026-04-10T15:42:50.850] error: *** JOB 51359114 ON nid008357 CANCELLED AT 2026-04-10T15:42:50 DUE to SIGNAL Terminated ***

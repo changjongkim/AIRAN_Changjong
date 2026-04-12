@@ -1,0 +1,87 @@
+============================================================
+Threshold: Qwen-72B (4GPU TP) + L1 on GPU0
+============================================================
+index, name, memory.total [MiB]
+0, NVIDIA A100-SXM4-80GB, 81920 MiB
+1, NVIDIA A100-SXM4-80GB, 81920 MiB
+2, NVIDIA A100-SXM4-80GB, 81920 MiB
+3, NVIDIA A100-SXM4-80GB, 81920 MiB
+
+==========================================
+MODE: baseline
+==========================================
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: 72b_baseline
+  RX mean:  2.008 ms
+  RX P50:   1.072 ms
+  RX P95:   7.934 ms
+  RX P99:   8.898 ms
+  Jitter:   1.1939
+  Miss>1ms: 60.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_72b_baseline_20260410_152926.json
+15:29:13.147172 cuphy.hpp:122    CON[1152905] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5622917e17e0).
+15:29:13.329450 cuphy.hpp:122    CON[1152905] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5622995e4910).
+15:29:13.329451 pusch_rx.cpp:1227 CON[1152905] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: qwen72b_b1_s2048
+==========================================
+Waiting for Qwen-72B to load (may take 60-90s)...
+Qwen-72B PID=1153554, measuring L1...
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: 72b_qwen72b_b1_s2048
+  RX mean:  1.920 ms
+  RX P50:   1.072 ms
+  RX P95:   7.969 ms
+  RX P99:   9.852 ms
+  Jitter:   1.1833
+  Miss>1ms: 62.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_72b_qwen72b_b1_s2048_20260410_153122.json
+15:31:14.225885 cuphy.hpp:122    CON[1153818] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x561317d1d5b0).
+15:31:14.325645 cuphy.hpp:122    CON[1153818] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x56131fb213c0).
+15:31:14.325646 pusch_rx.cpp:1227 CON[1153818] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: qwen72b_b4_s2048
+==========================================
+Qwen-72B PID=1154461, measuring L1...
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: 72b_qwen72b_b4_s2048
+  RX mean:  2.057 ms
+  RX P50:   1.086 ms
+  RX P95:   7.706 ms
+  RX P99:   10.634 ms
+  Jitter:   1.1878
+  Miss>1ms: 60.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_72b_qwen72b_b4_s2048_20260410_153317.json
+15:33:09.401510 cuphy.hpp:122    CON[1154744] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55a282a53950).
+15:33:09.502769 cuphy.hpp:122    CON[1154744] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55a28a856d90).
+15:33:09.502770 pusch_rx.cpp:1227 CON[1154744] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: baseline_final
+==========================================
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: 72b_baseline_final
+  RX mean:  1.994 ms
+  RX P50:   1.080 ms
+  RX P95:   7.998 ms
+  RX P99:   8.740 ms
+  Jitter:   1.1088
+  Miss>1ms: 61.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_72b_baseline_final_20260410_153342.json
+15:33:34.816547 cuphy.hpp:122    CON[1155387] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562555b21e60).
+15:33:34.918304 cuphy.hpp:122    CON[1155387] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x56255d9259a0).
+15:33:34.918304 pusch_rx.cpp:1227 CON[1155387] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+============================================================
+ALL MODES COMPLETE
+============================================================

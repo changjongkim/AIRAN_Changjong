@@ -1,0 +1,151 @@
+============================================================
+Multi-Node Qwen-72B Experiment
+Node0 (L1): nid008277
+Node1 (AI): nid008408
+============================================================
+index, name, memory.total [MiB]
+0, NVIDIA A100-SXM4-80GB, 81920 MiB
+1, NVIDIA A100-SXM4-80GB, 81920 MiB
+2, NVIDIA A100-SXM4-80GB, 81920 MiB
+3, NVIDIA A100-SXM4-80GB, 81920 MiB
+
+==========================================
+MODE: baseline (L1 solo on Node0)
+==========================================
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: mn72b_baseline
+  RX mean:  2.165 ms
+  RX P50:   1.046 ms
+  RX P95:   7.772 ms
+  RX P99:   11.382 ms
+  Jitter:   1.1642
+  Miss>1ms: 61.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_mn72b_baseline_20260410_161035.json
+16:10:22.938442 cuphy.hpp:122    CON[2037029] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5595c71d2b30).
+16:10:23.144434 cuphy.hpp:122    CON[2037029] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5595cefd5950).
+16:10:23.144435 pusch_rx.cpp:1227 CON[2037029] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: same_node_72b (L1+Qwen-72B both on Node0)
+==========================================
+Waiting 120s for Qwen-72B to load on Node0...
+[Qwen-72B] Loading model (4GPU TP, batch=1, seq=2048)...
+Qwen-72B PID=2037687, measuring L1 on Node0:GPU0...
+[Qwen-72B] Model loaded in 233.9s
+  GPU0: 37.0/85.1GB used
+  GPU1: 38.0/85.1GB used
+  GPU2: 38.0/85.1GB used
+  GPU3: 37.0/85.1GB used
+[Qwen-72B] Warmup...
+[Qwen-72B] Warmup done. Running for 300s
+[Qwen-72B] 5 iters, 0.99 it/s
+[Qwen-72B] 10 iters, 0.87 it/s
+[Qwen-72B] 15 iters, 0.84 it/s
+[Qwen-72B] 20 iters, 0.83 it/s
+[Qwen-72B] 25 iters, 0.82 it/s
+[Qwen-72B] 30 iters, 0.81 it/s
+[Qwen-72B] 35 iters, 0.81 it/s
+[Qwen-72B] 40 iters, 0.80 it/s
+[Qwen-72B] 45 iters, 0.80 it/s
+[Qwen-72B] 50 iters, 0.80 it/s
+[Qwen-72B] 55 iters, 0.80 it/s
+[Qwen-72B] 60 iters, 0.80 it/s
+[Qwen-72B] 65 iters, 0.79 it/s
+[Qwen-72B] 70 iters, 0.79 it/s
+[Qwen-72B] 75 iters, 0.79 it/s
+[Qwen-72B] 80 iters, 0.79 it/s
+[Qwen-72B] 85 iters, 0.79 it/s
+[Qwen-72B] 90 iters, 0.79 it/s
+[Qwen-72B] 95 iters, 0.79 it/s
+[Qwen-72B] 100 iters, 0.79 it/s
+[Qwen-72B] 105 iters, 0.79 it/s
+[Qwen-72B] 110 iters, 0.79 it/s
+[Qwen-72B] 115 iters, 0.79 it/s
+[Qwen-72B] 120 iters, 0.79 it/s
+[Qwen-72B] 125 iters, 0.79 it/s
+[Qwen-72B] 130 iters, 0.79 it/s
+[Qwen-72B] 135 iters, 0.79 it/s
+[Qwen-72B] 140 iters, 0.79 it/s
+[Qwen-72B] 145 iters, 0.79 it/s
+[Qwen-72B] 150 iters, 0.79 it/s
+[Qwen-72B] 155 iters, 0.79 it/s
+[Qwen-72B] 160 iters, 0.79 it/s
+[Qwen-72B] 165 iters, 0.79 it/s
+[Qwen-72B] 170 iters, 0.79 it/s
+[Qwen-72B] 175 iters, 0.79 it/s
+[Qwen-72B] 180 iters, 0.79 it/s
+[Qwen-72B] 185 iters, 0.79 it/s
+[Qwen-72B] 190 iters, 0.79 it/s
+[Qwen-72B] 195 iters, 0.79 it/s
+[Qwen-72B] 200 iters, 0.79 it/s
+[Qwen-72B] 205 iters, 0.79 it/s
+[Qwen-72B] 210 iters, 0.79 it/s
+[Qwen-72B] 215 iters, 0.79 it/s
+[Qwen-72B] 220 iters, 0.79 it/s
+[Qwen-72B] 225 iters, 0.79 it/s
+[Qwen-72B] 230 iters, 0.78 it/s
+[Qwen-72B] 235 iters, 0.78 it/s
+[Qwen-72B] done: 236 iters in 300.7s (0.78 it/s)
+  GPU0: 38.8/85.1GB used
+  GPU1: 39.2/85.1GB used
+  GPU2: 39.2/85.1GB used
+  GPU3: 38.8/85.1GB used
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: mn72b_same_node
+  RX mean:  1.928 ms
+  RX P50:   1.032 ms
+  RX P95:   7.397 ms
+  RX P99:   8.015 ms
+  Jitter:   1.0261
+  Miss>1ms: 65.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_mn72b_same_node_20260410_162024.json
+16:20:11.026417 cuphy.hpp:122    CON[2039953] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x56399477c140).
+16:20:11.142500 cuphy.hpp:122    CON[2039953] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x56399c57f5f0).
+16:20:11.142500 pusch_rx.cpp:1227 CON[2039953] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: diff_node_72b (L1:Node0, Qwen-72B:Node1)
+==========================================
+Waiting 120s for Qwen-72B to load on Node1...
+[Qwen-72B] Loading model (4GPU TP, batch=1, seq=2048)...
+Qwen-72B PID=2040597 on Node1, measuring L1 on Node0:GPU0...
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: mn72b_diff_node
+  RX mean:  1.980 ms
+  RX P50:   1.039 ms
+  RX P95:   7.770 ms
+  RX P99:   8.057 ms
+  Jitter:   1.1024
+  Miss>1ms: 61.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_mn72b_diff_node_20260410_162253.json
+16:22:43.720287 cuphy.hpp:122    CON[2040651] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560b612fb6a0).
+16:22:43.844868 cuphy.hpp:122    CON[2040651] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x560b690fff10).
+16:22:43.844869 pusch_rx.cpp:1227 CON[2040651] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: baseline_final
+==========================================
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+HBM: 2.4/85.1GB
+
+RESULT: mn72b_baseline_final
+  RX mean:  1.969 ms
+  RX P50:   1.041 ms
+  RX P95:   7.654 ms
+  RX P99:   8.132 ms
+  Jitter:   1.1034
+  Miss>1ms: 61.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_mn72b_baseline_final_20260410_162332.json
+16:23:23.343159 cuphy.hpp:122    CON[2041371] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c3624a0ff0).
+16:23:23.441714 cuphy.hpp:122    CON[2041371] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55c36a2a4700).
+16:23:23.441714 pusch_rx.cpp:1227 CON[2041371] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+============================================================
+ALL MODES COMPLETE
+============================================================

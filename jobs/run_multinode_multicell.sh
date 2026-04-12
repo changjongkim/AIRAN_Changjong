@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -A m1248
-#SBATCH -C gpu
+#SBATCH -C gpu&hbm80g
 #SBATCH -q debug
 #SBATCH -t 00:30:00
 #SBATCH -N 2
