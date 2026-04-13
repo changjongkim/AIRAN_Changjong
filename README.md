@@ -1103,3 +1103,164 @@ HBM 용량이 작으면 같은 AI workload에 대해 bandwidth 경쟁 비율이 
 3. **실무적 가치**
    - pyAerial SDK 환경(실제 개발 환경)에서의 가이드라인
    - "이 AI workload는 이 L1 부하에서 안전/위험"을 판단하는 프레임워크
+
+---
+
+## 7. Why This Research — Motivation
+
+### 7.1 산업적 필요: AI-RAN 도입의 안전성 검증 부재
+
+통신사는 AI-RAN을 도입하여 GPU 활용률을 높이고 AI 서비스 수익을 올리고 싶지만,
+**"정말 L1 SLA를 지키면서 AI를 돌릴 수 있는가?"에 대한 정량적 답이 없다.**
+
+NVIDIA PoC 논문은 "MIG 40:60으로 나누면 잘 된다"고 시연했지만:
+- 어떤 AI workload까지 안전한가? (GPT-2? ResNet? Qwen-72B?)
+- 트래픽이 폭주하면? (Flash crowd 시 L1 부하 급증)
+- HBM bandwidth 경합은 얼마나 심각한가?
+- **정량적 안전 마진(Safety margin)을 제시하지 않음**
+
+**수조 원 규모의 인프라 투자 결정에 PoC 하나로는 근거가 부족하다.**
+본 연구는 이 gap을 메우는 정량적 간섭 모델과 안전 가이드라인을 제공한다.
+
+### 7.2 기술적 필요: MIG의 한계와 대안 부재
+
+NVIDIA MIG는 SM과 Memory를 격리하지만, **HBM Bandwidth는 공유**된다.
+
+```
+본 연구의 실측 결과:
+  - SM 격리 (MIG의 핵심 기능): 효과 없음 — SM이 병목이 아님
+  - Bandwidth 경합 (MIG가 못 하는 것): 3.5~104x 간섭 — 진짜 병목
+
+→ "MIG면 충분하다"는 통념이 틀렸음을 데이터로 증명
+→ Bandwidth-aware 오케스트레이션이라는 새로운 방향이 필요
+```
+
+MIG의 추가 한계:
+- 정적 파티셔닝 → 트래픽 변화에 실시간 대응 불가 (GPU reset 필요)
+- 제한된 파티션 크기 (7등분만 가능) → 세밀한 자원 조절 불가
+- **대안이 제시되지 않은 상태**
+
+### 7.3 시스템적 필요: cuPHY/pyAerial의 비효율이 AI-RAN 성능을 제한
+
+cuPHY 소스코드 분석으로 발견한 시스템 비효율:
+
+**문제 1: Hot Path에서 cudaMalloc/cudaFree 반복**
+```python
+# pyAerial pusch_rx.py:345-380 — 매 TTI마다 실행
+harq_buffer = cudart.cudaMalloc(harq_buffer_size)   # GPU 메모리 할당 (~수십 us)
+cudart.cudaStreamSynchronize(self.cuda_stream)       # 강제 동기화
+# ... 처리 후 ...
+cudart.cudaFree(harq_buffers[ue_idx])                # GPU 메모리 해제
+# NVIDIA 자체 TODO: "Move this out of the real-time pipeline."
+```
+매 호출마다 malloc/free는 불필요한 지연. Pre-allocate pool로 제거 가능.
+
+**문제 2: 개별 D2H Copy (최적화 안 됨)**
+```cpp
+// pusch_rx.cpp:4190 — NVIDIA 자체 TODO
+// @todo: Potential optimization opportunity: carry out all the output
+// transfers by using a single cudaMemcpyAsync.
+```
+TB payload, CB CRC, TB CRC를 개별 memcpy → 하나로 합치면 DMA 효율 증가.
+
+**문제 3: Per-cell 동기화가 Multi-cell 병렬화 차단**
+```cpp
+// pusch_rx.cpp:5555
+cudaStreamSynchronize(phase2Stream);  // 매 cell마다 GPU-CPU 동기화
+```
+cubb_gpu_test_bench는 CUDA Graph로 우회하지만, pyAerial API에서는 불가능.
+이것이 SM% sweep에서 변화가 없는 근본 원인.
+
+**왜 이게 중요한가**:
+```
+L1을 최적화 → L1이 더 빨리 끝남 → idle 시간 증가 → AI에 줄 자원 증가
+→ AI-RAN의 GPU 활용률 향상
+
+현재: L1 = 16ms (20cell) + 오버헤드 → AI 시간 제한적
+최적화 후: L1 = 10ms + 오버헤드 제거 → AI 시간 60% 증가
+```
+**L1 시스템 최적화가 곧 AI-RAN의 경제성을 결정한다.**
+
+### 7.4 멀티노드 스케일의 가이드라인 부재
+
+실제 AI-RAN 클러스터에서의 미해결 문제:
+
+```
+1. AI 배치 결정 (Placement)
+   "AI workload X를 어느 노드에 놓을까?"
+   → 각 노드의 L1 부하, HBM 사용량, bandwidth 여유를 고려해야
+   → 현재는 정량적 기준 없이 운영자 감에 의존
+
+2. Migration 비용 (Cost of movement)
+   Node A가 busy → AI를 Node B로 이동
+   → Qwen-7B (14GB): GPU→GPU ~2초, Node→Node ~5초
+   → 이 시간 동안 AI 서비스 중단 → migration 빈도 최소화 필요
+   → "언제 옮기고 언제 버티는 게 최적인가?" → 답 없음
+
+3. Fronthaul vs AI 트래픽 경합
+   L1 ↔ RU 데이터와 AI cross-node 통신이 같은 네트워크 사용
+   → 네트워크 수준의 간섭은 GPU 수준과 별개로 존재
+
+4. 오케스트레이션 지연
+   Kubernetes pod scheduling: 수백ms ~ 수초
+   L1 SLA: 0.5ms
+   → "AI를 옮기기로 결정"하는 시간 자체가 SLA보다 길 수 있음
+```
+
+**본 연구의 bandwidth 간섭 모델이 이 문제들의 정량적 기반을 제공한다.**
+
+### 7.5 요약: 연구의 위치
+
+```
+NVIDIA PoC:  "AI-RAN이 된다" (What)
+본 연구:     "어디까지 되고, 어디서 깨지고, 어떻게 고치나" (How & When & Why)
+
+      │ NVIDIA PoC          │ 본 연구                       │
+      │ "잘 된다" (정성적)   │ "3.87x 간섭" (정량적)         │
+      │ MIG 시연            │ MIG 한계 실측 + Bandwidth 모델 │
+      │ 단일 노드 PoC       │ 멀티노드 배치 가이드라인       │
+      │ 이상적 환경          │ 실제 개발 환경 (pyAerial)      │
+      │                     │ + 코드 레벨 최적화 제안         │
+```
+
+## 8. Phase 1 Implementation Plan
+
+### 8.1 코드 레벨 최적화 (시스템 contribution)
+
+| 최적화 | 대상 | 예상 효과 | 구현 |
+|--------|------|----------|------|
+| HARQ buffer pre-allocation | pyAerial pusch_rx.py | per-cell ~50us 감소 | Python 수정 |
+| D2H copy 통합 | cuPHY pusch_rx.cpp | D2H 오버헤드 감소 | C++ 수정 |
+| Multi-cell CUDA Graph | pyAerial level | SM 병렬화, cell 간 동기화 제거 | Python + CUDA |
+
+### 8.2 Bandwidth 간섭 모델 (분석 contribution)
+
+```
+이미 확보한 데이터로 피팅:
+  L1_latency(BW, cells, hbm_total) = baseline(cells) × (1 + α(cells, hbm_total) × BW)
+
+  α(1cell, 80GB)  ≈ 5.7 per GB
+  α(20cell, 80GB) ≈ 15.0 per GB
+  α(20cell, 40GB) ≈ 19.2 per GB
+
+  → 일반화된 간섭 예측 수식
+  → 입력: AI workload의 bandwidth 프로파일
+  → 출력: 예상 L1 latency 증가율
+```
+
+### 8.3 Bandwidth-aware 오케스트레이터 (시스템 + 알고리즘 contribution)
+
+```
+Policy:
+  1. Monitor: 각 노드/GPU의 L1 latency + AI bandwidth 실시간 수집
+  2. Predict: 간섭 모델로 "이 AI를 여기 놓으면 L1에 X ms 영향" 예측
+  3. Decide:
+     - SLA 마진 내 → AI 투입 허용
+     - SLA 위반 예상 → 다른 GPU/노드로 라우팅
+     - SLA 위반 감지 → AI 즉시 중단 (reactive, 복구 즉각적 확인됨)
+  4. Optimize: 전체 클러스터의 AI 처리량 최대화 under SLA constraints
+
+Evaluation:
+  - 정적 MIG (40:60 고정) vs 동적 오케스트레이터
+  - GPU 활용률, AI 처리량, L1 SLA 위반율 비교
+```
