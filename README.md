@@ -948,6 +948,63 @@ HBM Bandwidth (메모리 대역폭):
 
 40GB가 모든 항목에서 ~1.2배 더 민감 — HBM 용량이 작으면 bandwidth 경쟁 비율이 높아짐.
 
+### Exp-15: Realistic AI-RAN Workloads (4T4R × 8cell, 40GB, 2026-04-13)
+
+**합성 HBM stress가 아닌, 실제 AI-RAN에서 돌릴 워크로드 패턴으로 간섭 측정.**
+
+| Workload | 설명 | 특성 |
+|----------|------|------|
+| **Neural Rx** | Neural Receiver 시뮬레이션 (Conv1d CNN) | 매 TTI: read IQ → CNN → write output (bandwidth+compute 반복) |
+| **Video Analytics** | Edge 비디오 분석 (ResNet-50, 512px) | 연속 프레임: read → inference → repeat |
+| **Matmul** | 행렬곱 반복 (bandwidth/compute 혼합) | 연속 대형 행렬 read/write |
+
+Neural Rx의 intensity는 모델 크기를 조절:
+- low (0.2): 작은 CNN, batch=3, 12ch — 가벼운 AI
+- mid (0.5): 중간 CNN, batch=8, 32ch — 일반적 수준
+- high (1.0): 대형 CNN, batch=16, 64ch — Massive MIMO Neural Receiver 수준
+
+| Mode | RX mean | per cell | vs baseline | 비고 |
+|------|---------|----------|-------------|------|
+| **baseline** | **6.067ms** | 0.758ms | **1.00x** | |
+| Neural Rx (low) | 5.984ms | 0.748ms | **0.99x** | 가벼운 AI — 간섭 없음 |
+| Neural Rx (mid) | 6.850ms | 0.856ms | **1.13x** | 중간 — 미세한 간섭 |
+| **Neural Rx (high)** | **11.017ms** | 1.377ms | **1.82x** | **Massive MIMO 수준 — 의미있는 간섭** |
+| Video Analytics | 7.005ms | 0.876ms | **1.15x** | Edge AI — 미세한 간섭 |
+| **Matmul (mid, 4608)** | **71.197ms** | 8.900ms | **11.74x** | bandwidth-heavy — 심각한 간섭 |
+| **Matmul (high, 8192)** | **136.573ms** | 17.072ms | **22.51x** | 극심한 간섭 |
+| baseline_final | 6.170ms | 0.771ms | 1.02x | 일관성 ✅ |
+
+**분석 — 왜 워크로드마다 간섭이 다른가:**
+
+```
+bandwidth 사용 패턴과 간섭의 관계:
+
+  Neural Rx (low):   █░░░░█░░░░  (작은 read → 긴 compute → 작은 write)
+  → bandwidth 사용 간헐적 + 양이 적음 → 간섭 0.99x
+
+  Neural Rx (high):  ██░░██░░██  (큰 read → compute → 큰 write → 반복)
+  → bandwidth 사용 빈번 + 양이 많음 → 간섭 1.82x
+
+  Video Analytics:   ██░░░██░░░  (프레임 read → inference → 반복)
+  → 간헐적이지만 프레임이 크지 않음 → 간섭 1.15x
+
+  Matmul (high):     ████████████ (연속 대형 행렬 read/write)
+  → bandwidth 거의 연속 사용 → 간섭 22.51x
+  → HBM stress(171x)보다는 낮지만 실질적으로 심각
+
+  HBM stress:        ████████████████ (100% copy, compute 없음)
+  → bandwidth 완전 포화 → 간섭 171x (극단, 비현실적)
+```
+
+**핵심 결론:**
+- **실제 AI-RAN 워크로드(Neural Rx high)에서 1.82x 간섭** — "간섭이 존재한다"의 현실적 증거
+- **AI의 intensity(모델 크기/batch)가 커질수록 간섭 증가** — 0.99x → 1.13x → 1.82x
+- **bandwidth 사용의 연속성(duty cycle)이 간섭의 핵심 요인**
+  - 간헐적 사용(Neural Rx low, Video) → 간섭 미미
+  - 연속적 사용(Matmul high) → 간섭 극심
+- **합성 HBM stress(171x)와 실제 워크로드(1.82~22x) 사이에 큰 gap**
+  → 이전 실험의 HBM stress는 과대평가, 실제는 1.82~22x 범위
+
 #### 6. NVIDIA PoC 논문과의 포지셔닝
 
 | | NVIDIA PoC | 본 연구 |
