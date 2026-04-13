@@ -1,0 +1,12 @@
+{
+  "l1_alone_ms": 0.08180266668399175,
+  "ai_alone_ms": 7.389870929718017,
+  "l1_with_ai_default_ms": 1.5000682671864827,
+  "l1_with_ai_priority_ms": 0.1100437343120575,
+  "l1_with_hbm_default_ms": 1.4918890635172526,
+  "l1_with_hbm_priority_ms": 0.09376639972130457,
+  "priority_range": [
+    -5,
+    0
+  ]
+}
