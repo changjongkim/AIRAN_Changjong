@@ -866,7 +866,30 @@ AI workload를 중단하면 L1이 바로 baseline으로 복구됨.
 - Qwen-72B(4GPU TP) = 1.33x vs GPT-2(1GPU) = 3.50x → tensor parallel 분산이 간섭 감소
 - HBM stress와 간섭의 선형 관계는 L1 부하에 비례하여 기울기가 가팔라짐
 
-#### 3. SM 경합이 아닌 Bandwidth가 병목 — cuPHY API 분석을 통한 규명
+#### 3. Concurrent vs Sequential 실행 — 차이 없음을 실증 (2026-04-12)
+
+Python에서 per-cell sync를 제거하고 20cell을 한번에 launch한 뒤 마지막에만 sync하는
+concurrent 실행을 시도. **Sequential과 결과가 동일** — cuPHY 내부 동기화가 원인임을 확인.
+
+| Mode | Sequential (vs base) | Concurrent (vs base) |
+|------|---------------------|---------------------|
+| baseline | 15.068ms | 16.188ms |
+| + HBM 2GB | 40.57x | 37.78x |
+| + GPT-2 | 3.87x | 3.60x |
+| + ResNet-128 | 4.06x | 3.86x |
+| + Qwen-7B | 1.48x | 1.30x |
+
+| SM% | Sequential | Concurrent |
+|-----|-----------|------------|
+| 100% | 1.00x | 1.00x |
+| 50% | 1.00x | 0.99x |
+| 20% | 1.01x | 0.97x |
+| 10% | 1.03x | 1.02x |
+
+**Python 레벨에서 sync를 제거해도 cuPHY C++ 내부에서 직렬화 → 결과 동일.**
+이 실험이 "SM 경합이 아닌 Bandwidth가 병목"의 직접적 근거.
+
+#### 4. SM 경합이 아닌 Bandwidth가 병목 — cuPHY API 분석을 통한 규명
 
 SM% sweep (5%~100%)에서 L1 latency 변화가 없는 이유를 cuPHY 소스코드 분석으로 규명:
 
