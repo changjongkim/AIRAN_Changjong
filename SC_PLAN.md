@@ -601,9 +601,8 @@ ResNet 간섭 해소:
 ### 9.5 아직 필요한 데이터
 
 ```
-❌ AI throughput 동시 측정 (L1 보호 시 AI가 얼마나 느려지는지)
-   → run_bora_eval_40g.sh 제출됨 (Job 51549984)
-   → shell background + AI output을 파일로 캡처
+❌ AI throughput 정확한 수치 (AI가 kill되어 done 출력 안 됨)
+   → AI duration을 L1보다 길게 설정하거나, 주기적으로 파일에 기록하는 방식 필요
 
 ❌ Config D (TTI coordination) on 40GB
    → 아직 40GB에서 TTI coordination 실험 안 함
@@ -613,4 +612,32 @@ ResNet 간섭 해소:
 
 ❌ Pareto curve (AI throughput vs TTI miss)
    → Config A~E에서 두 축 동시 측정 필요
+```
+
+### 9.6 BORA Eval (1N, 40GB, GPT-2/ResNet, Shell background + MPS)
+
+L1 간섭 데이터는 유효 (AI가 GPU에서 실제 돌았음 확인).
+AI throughput은 kill로 인해 done 출력이 안 되어 수치 미확보.
+
+| Config | + GPT-2 L1 | miss | + ResNet L1 | miss |
+|--------|-----------|------|-----------|------|
+| baseline (L1 solo) | 0.544ms | 0% | - | - |
+| **A (없음)** | 0.550ms | 0% | **2.090ms** | **98%** |
+| **B (MIG 40:60)** | 0.525ms | 0% | 0.647ms | 6% |
+| **C (MIG + Prio)** | 0.525ms | 0% | 0.656ms | 4% |
+
+**ResNet이 핵심 병목 케이스:**
+```
+Config A → B: miss 98% → 6%  (MIG 격리만으로 대폭 개선)
+Config B → C: miss 6% → 4%   (Priority 추가로 약간 더 개선)
+```
+
+GPT-2는 모든 Config에서 간섭 미미 (bandwidth 사용이 간헐적이라 Config A에서도 0.550ms).
+
+**두 차례 40GB 실험의 일관성 확인:**
+```
+첫 번째 (bora_40g):  A=94% → B=2% → C=0%
+두 번째 (bora_eval): A=98% → B=6% → C=4%
+→ 같은 패턴, 수치 차이는 노드/시점 변동
+→ 핵심 결론 동일: MIG(B)로 대폭 개선, Priority(C)로 추가 개선
 ```
