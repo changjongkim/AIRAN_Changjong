@@ -1,0 +1,56 @@
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'
+<frozen importlib._bootstrap_external>:1184: FutureWarning: The cuda.cudart module is deprecated and will be removed in a future release, please switch to use the cuda.bindings.runtime module instead.
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 243, in <module>
+    main()
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/run_l1_graph.py", line 169, in main
+    dyn_prms = PuschDynPrms(
+TypeError: PuschDynPrms.__new__() missing 2 required positional arguments: 'statusOut' and 'dbg'

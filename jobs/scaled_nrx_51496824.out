@@ -1,0 +1,259 @@
+============================================================
+Scaled Neural Receiver + L1 (8cells, 40GB)
+============================================================
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+
+==========================================
+MODE: baseline
+==========================================
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1: 8 cells, 4T4R, MCS 2
+HBM: 8.2/42.4GB (19%)
+
+RESULT: snrx_baseline
+  RX mean:  6.159 ms (0.770 ms/cell)
+  RX P95:   6.753 ms
+  RX P99:   6.907 ms
+  Jitter:   0.0871
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_snrx_baseline_20260413_152537.json
+15:25:35.445971 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55ed44bfd4b0).
+15:25:35.653585 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd0c41fb0).
+15:25:35.653585 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:35.658801 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55edd0b78550).
+15:25:35.752102 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd138f630).
+15:25:35.752103 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:35.756951 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55edd14f6e30).
+15:25:35.862884 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd181cbc0).
+15:25:35.862885 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:35.906236 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55edd1b5b770).
+15:25:36.002992 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd1ee3fd0).
+15:25:36.002993 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:36.008171 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55edd21f9110).
+15:25:36.102302 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd2555450).
+15:25:36.102303 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:36.107351 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55edd285cd60).
+15:25:36.196974 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd2bdb4c0).
+15:25:36.196974 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:36.202914 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55edd2efb880).
+15:25:36.320449 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd32a6d30).
+15:25:36.320450 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:36.355397 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55edd352c750).
+15:25:36.449573 cuphy.hpp:122    CON[991313] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55edd38ad070).
+15:25:36.449574 pusch_rx.cpp:1227 CON[991313] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: Neural Rx small
+==========================================
+Neural Rx (small) PID=991670
+[ScaledNRx] scale=small ant=4 hidden=64 params=74,244 (0.3MB)
+[ScaledNRx] input=[1, 8, 45864] (1.5MB) seq_len=45864
+[ScaledNRx] HBM=1.6/42.4GB, running 120s
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1: 8 cells, 4T4R, MCS 2
+HBM: 9.7/42.4GB (23%)
+
+RESULT: snrx_small
+  RX mean:  8.402 ms (1.050 ms/cell)
+  RX P95:   8.663 ms
+  RX P99:   9.254 ms
+  Jitter:   0.0229
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_snrx_small_20260413_152600.json
+15:25:58.023476 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e459fe2460).
+15:25:58.142825 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e60283c0).
+15:25:58.142825 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:58.147601 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e4e5f5e9e0).
+15:25:58.238672 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e66c4470).
+15:25:58.238673 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:58.243471 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e4e68dd850).
+15:25:58.333397 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e6d64520).
+15:25:58.333398 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:58.338283 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e4e6f421c0).
+15:25:58.452467 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e72caae0).
+15:25:58.452468 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:58.480233 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e4e75df990).
+15:25:58.571951 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e7925000).
+15:25:58.571952 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:58.577318 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e4e7c434b0).
+15:25:58.667718 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e7fc1d60).
+15:25:58.667719 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:58.673616 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e4e82e22a0).
+15:25:58.764620 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e868d700).
+15:25:58.764621 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:25:58.769624 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e4e89134f0).
+15:25:58.880243 cuphy.hpp:122    CON[991948] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e4e8c93e90).
+15:25:58.880243 pusch_rx.cpp:1227 CON[991948] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: Neural Rx medium
+==========================================
+[ScaledNRx] scale=medium ant=16 hidden=128 params=313,872 (1.3MB)
+[ScaledNRx] input=[1, 32, 45864] (5.9MB) seq_len=45864
+[ScaledNRx] HBM=1.5/42.4GB, running 120s
+Neural Rx (medium) PID=992285
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1: 8 cells, 4T4R, MCS 2
+HBM: 9.7/42.4GB (23%)
+
+RESULT: snrx_medium
+  RX mean:  9.768 ms (1.221 ms/cell)
+  RX P95:   9.874 ms
+  RX P99:   12.661 ms
+  Jitter:   0.0445
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_snrx_medium_20260413_152622.json
+15:26:20.750607 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e6f7924280).
+15:26:20.870096 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e783969e50).
+15:26:20.870096 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:20.911029 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e7838a03f0).
+15:26:21.004396 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e783f2bf30).
+15:26:21.004397 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:21.009311 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e78421ef30).
+15:26:21.098643 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e784544cc0).
+15:26:21.098644 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:21.108427 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e7848838b0).
+15:26:21.198227 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e784c0c110).
+15:26:21.198227 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:21.203160 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e784f21250).
+15:26:21.303225 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e78527d590).
+15:26:21.303226 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:21.360924 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e785584ea0).
+15:26:21.454398 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e785903600).
+15:26:21.454398 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:21.460332 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e785c239c0).
+15:26:21.547576 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e785fcee70).
+15:26:21.547576 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:21.552613 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55e786254890).
+15:26:21.641775 cuphy.hpp:122    CON[992563] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55e7865ebf00).
+15:26:21.641775 pusch_rx.cpp:1227 CON[992563] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: Neural Rx large
+==========================================
+[ScaledNRx] scale=large ant=64 hidden=256 params=1,393,728 (5.6MB)
+[ScaledNRx] input=[1, 128, 13104] (6.7MB) seq_len=13104
+[ScaledNRx] HBM=1.4/42.4GB, running 120s
+Neural Rx (large) PID=992900
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1: 8 cells, 4T4R, MCS 2
+HBM: 9.6/42.4GB (23%)
+
+RESULT: snrx_large
+  RX mean:  8.254 ms (1.032 ms/cell)
+  RX P95:   8.419 ms
+  RX P99:   11.189 ms
+  Jitter:   0.0533
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_snrx_large_20260413_152645.json
+15:26:43.595512 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555b9383eaa0).
+15:26:43.720398 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c1f817160).
+15:26:43.720399 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:43.751908 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c1f6484e0).
+15:26:43.844290 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c1ff1cd40).
+15:26:43.844290 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:43.849373 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c20136200).
+15:26:43.963178 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c2045bf90).
+15:26:43.963179 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:43.998360 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c2079b240).
+15:26:44.095642 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c20b23b60).
+15:26:44.095642 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:44.100607 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c20e38e30).
+15:26:44.191554 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c2117e4a0).
+15:26:44.191554 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:44.196589 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c2149d050).
+15:26:44.287205 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c2181b900).
+15:26:44.287206 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:44.292924 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c21b3be40).
+15:26:44.398134 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c21ee72a0).
+15:26:44.398135 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:26:44.464035 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c2216d090).
+15:26:44.559224 cuphy.hpp:122    CON[993178] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x555c224eda30).
+15:26:44.559225 pusch_rx.cpp:1227 CON[993178] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: Neural Rx xlarge
+==========================================
+[ScaledNRx] scale=xlarge ant=64 hidden=512 params=5,015,616 (20.1MB)
+[ScaledNRx] input=[1, 128, 13104] (6.7MB) seq_len=13104
+[ScaledNRx] HBM=1.6/42.4GB, running 120s
+Neural Rx (xlarge) PID=993515
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1: 8 cells, 4T4R, MCS 2
+HBM: 9.7/42.4GB (23%)
+
+RESULT: snrx_xlarge
+  RX mean:  14.517 ms (1.815 ms/cell)
+  RX P95:   14.482 ms
+  RX P99:   16.556 ms
+  Jitter:   0.0237
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_snrx_xlarge_20260413_152709.json
+15:27:06.441300 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563207718480).
+15:27:06.548822 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x56329375b8d0).
+15:27:06.548822 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:06.553761 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563293691e70).
+15:27:06.644950 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x563293df7ce0).
+15:27:06.644950 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:06.649794 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563294010ad0).
+15:27:06.764835 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x563294336820).
+15:27:06.764836 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:06.799273 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563294675380).
+15:27:06.894877 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5632949fdc60).
+15:27:06.894878 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:06.899810 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563294d128f0).
+15:27:06.991348 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x563295057f00).
+15:27:06.991348 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:06.996640 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563295376580).
+15:27:07.091109 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5632956f4bb0).
+15:27:07.091110 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:07.097014 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563295a154f0).
+15:27:07.200563 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x563295dc0ae0).
+15:27:07.200563 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:07.254952 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x563296046790).
+15:27:07.350291 cuphy.hpp:122    CON[993792] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x5632963c72b0).
+15:27:07.350292 pusch_rx.cpp:1227 CON[993792] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+==========================================
+MODE: baseline_final
+==========================================
+GPU: NVIDIA A100-SXM4-40GB (108 SMs)
+L1: 8 cells, 4T4R, MCS 2
+HBM: 8.2/42.4GB (19%)
+
+RESULT: snrx_baseline_final
+  RX mean:  6.074 ms (0.759 ms/cell)
+  RX P95:   6.802 ms
+  RX P99:   6.945 ms
+  Jitter:   0.0693
+  Miss>1ms: 100.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_snrx_baseline_final_20260413_152725.json
+15:27:23.296061 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f4aefdf280).
+15:27:23.401445 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53b0242e0).
+15:27:23.401445 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:23.406309 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f53af5a880).
+15:27:23.525699 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53b5e6460).
+15:27:23.525700 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:23.577438 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f53b8d9410).
+15:27:23.672960 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53bbff1a0).
+15:27:23.672961 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:23.677810 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f53bf3dd90).
+15:27:23.767300 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53c2c65f0).
+15:27:23.767301 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:23.772274 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f53c5db470).
+15:27:23.862413 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53c9377b0).
+15:27:23.862413 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:23.867515 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f53cc3f080).
+15:27:23.971642 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53cfbd930).
+15:27:23.971643 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:24.017633 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f53d2de120).
+15:27:24.111643 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53d71e7a0).
+15:27:24.111644 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+15:27:24.116967 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55f53d90f0c0).
+15:27:24.206109 cuphy.hpp:122    CON[994130] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 674.017 MiB for cuPHY PUSCH channel object (0x55f53dc8fa60).
+15:27:24.206109 pusch_rx.cpp:1227 CON[994130] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+
+ALL COMPLETE

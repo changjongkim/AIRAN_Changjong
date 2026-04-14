@@ -1005,21 +1005,98 @@ bandwidth 사용 패턴과 간섭의 관계:
 - **합성 HBM stress(171x)와 실제 워크로드(1.82~22x) 사이에 큰 gap**
   → 이전 실험의 HBM stress는 과대평가, 실제는 1.82~22x 범위
 
+### Exp-16: CUDA Graph Multi-cell Benchmark (4T4R, 80GB, 2026-04-13)
+
+**cuPHY의 CUDA Graph 모드를 활성화하여 multi-cell 병렬 실행 성능 측정.**
+pyAerial에서 `nMaxCells`와 `enableDeviceGraphLaunch`를 패치하여 구현.
+
+#### Stream vs Graph — L1 단독 성능
+
+| Cells | STREAM | GRAPH | Graph 속도향상 |
+|-------|--------|-------|--------------|
+| 1 | 0.291ms | 0.441ms | 0.66x (오버헤드) |
+| 2 | 0.441ms | 0.448ms | 0.98x (비슷) |
+| **4** | **0.738ms** | **0.458ms** | **1.61x 빠름** |
+| **8** | **1.305ms** | **0.475ms** | **2.75x 빠름** |
+
+**분석**:
+- **Graph 모드에서 cell 수를 늘려도 latency가 거의 증가하지 않음**
+  (1cell=0.441ms → 8cell=0.475ms, 8배에 +8%)
+- Stream은 cell 수에 비례하여 증가 (1cell=0.291ms → 8cell=1.305ms, ~4.5배)
+- **4cell부터 Graph가 이득** — 병렬화 효과가 Graph 캡처 오버헤드를 넘김
+- **8cell Graph = 0.475ms → 1ms TTI 내, Stream = 1.305ms → TTI 초과**
+
+```
+STREAM (순차 실행):
+  cell0 → cell1 → cell2 → ... → cell7  총 1.305ms
+  ├0.16ms┤├0.16ms┤├0.16ms┤    ├0.16ms┤
+
+GRAPH (병렬 실행):
+  cell0 ─┐
+  cell1 ─┤
+  cell2 ─┼→ GPU에서 동시 실행  총 0.475ms
+  ...    ─┤
+  cell7 ─┘
+```
+
+### Exp-17: CUDA Graph + AI Interference (8cell, 40GB, 2026-04-13)
+
+**핵심 실험: CUDA Graph L1과 AI 워크로드의 간섭을 Stream 모드와 직접 비교.**
+
+#### Graph baseline 대비 간섭
+
+| AI Workload | GRAPH RX mean | vs Graph baseline (0.551ms) | 1ms TTI |
+|---|---|---|---|
+| **baseline** | **0.551ms** | **1.00x** | **✅ 통과** |
+| **Neural Rx (high)** | **0.943ms** | **1.71x** | **✅ 통과 (여유 0.057ms)** |
+| GPT-2 | 2.033ms | 3.69x | ❌ 초과 |
+| ResNet-50 bs128 | 2.080ms | 3.78x | ❌ 초과 |
+| HBM stress 2GB | 26.080ms | 47.33x | ❌ 초과 |
+
+#### Stream vs Graph — 간섭 비율 비교
+
+| AI Workload | Sequential 간섭 | Graph 간섭 | 차이 |
+|---|---|---|---|
+| Neural Rx high | 1.82x | 1.71x | **비슷** |
+| GPT-2 | 3.87x | 3.69x | **비슷** |
+| ResNet-50 | 4.06x | 3.78x | **비슷** |
+| HBM stress | 40.57x | 47.33x | **비슷 (Graph가 약간 더 큼)** |
+
+**핵심 결론: CUDA Graph는 간섭 문제를 해결하지 않는다.**
+
+```
+CUDA Graph가 해주는 것:
+  ✅ L1 baseline을 1.5ms → 0.55ms로 단축 (SM 병렬화)
+  ✅ TTI 1ms 안에 L1을 넣을 수 있게 해줌
+  
+CUDA Graph가 해주지 않는 것:
+  ❌ AI와의 bandwidth 간섭 비율은 동일 (1.71x~47x)
+  ❌ GPT-2, ResNet 등과 공존 시 여전히 TTI 초과
+  
+이유:
+  CUDA Graph = SM 병렬화 (cell 간 병렬 실행)
+  Bandwidth = GPU 전역 공유 자원 → Graph든 Stream이든 경쟁은 동일
+  → "SM을 아무리 잘 써도, bandwidth 경쟁은 그대로"
+```
+
+**의미**: CUDA Graph는 L1을 빠르게 만들어 TTI 마진을 확보하지만,
+그 마진 안에서 AI가 bandwidth를 얼마나 쓰느냐가 SLA 통과를 결정.
+- Neural Rx high (1.71x = 0.943ms) → TTI 통과 — **in-line AI는 공존 가능**
+- GPT-2/ResNet (3.7x = 2.0ms) → TTI 초과 — **best-effort AI는 추가 관리 필요**
+- HBM stress (47x = 26ms) → 극심 — **bandwidth-heavy workload는 불가**
+
+이는 **"CUDA Graph(SM 최적화) + Bandwidth 관리"가 모두 필요**함을 보여주며,
+SM만 격리하는 MIG도, SM만 병렬화하는 CUDA Graph도 단독으로는 부족하다.
+
 #### 6. NVIDIA PoC 논문과의 포지셔닝
 
 | | NVIDIA PoC | 본 연구 |
 |---|---|---|
-| **실행 환경** | CUDA Graph (이상적 병렬) | pyAerial SDK (실질적 개발 환경) |
-| **초점** | "동시 실행 가능한가?" | "Bandwidth 경합의 정량적 영향은?" |
-| **SM 경합** | CUDA Graph로 우회 | API 직렬화로 경합 없음 → SM은 병목 아님 |
-| **Bandwidth** | 측정하지 않음 | **3.5~104x 간섭 실측** |
-| **결론** | "MIG면 충분" | **"MIG의 SM 격리는 부차적, Bandwidth 관리가 핵심"** |
-
-> NVIDIA의 PoC는 이상적 병렬 환경(CUDA Graph)에서의 결과이나,
-> 본 연구는 **제어 평면(Control Plane)과의 잦은 동기화가 필요한
-> 실제 운영 환경**에서의 위험성을 실측했다.
-> pyAerial SDK는 AI-RAN 앱 개발자들이 가장 많이 사용하는 환경이며,
-> 이러한 제약 조건 하에서의 자원 경합을 다룬 것이 본 연구의 차별점이다.
+| **L1 실행** | CUDA Graph (병렬) | Stream (순차) + **Graph (병렬) 모두 실측** |
+| **초점** | "동시 실행 가능한가?" | **"Graph에서도 bandwidth 간섭은 동일"** |
+| **SM 경합** | Graph로 해결 | Graph로 해결됨 확인 — **하지만 그게 전부가 아님** |
+| **Bandwidth** | 측정하지 않음 | **Graph/Stream 모두에서 1.7~47x 간섭 실측** |
+| **결론** | "MIG + Graph면 충분" | **"Graph가 SM을 해결해도 Bandwidth는 남는다"** |
 
 **A100 MIG 프로파일 (에뮬레이션 대상)**:
 

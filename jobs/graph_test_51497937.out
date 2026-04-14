@@ -1,0 +1,13 @@
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+NVIDIA A100-SXM4-80GB, 81920 MiB
+GPU: NVIDIA A100-SXM4-80GB (108 SMs)
+[FAIL] 1cell_STREAM: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'
+[FAIL] 1cell_GRAPH: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'
+[FAIL] 2cell_STREAM: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'
+[FAIL] 2cell_GRAPH: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'
+[FAIL] 4cell_STREAM: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'
+[FAIL] 4cell_GRAPH: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'
+[FAIL] 8cell_STREAM: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'
+[FAIL] 8cell_GRAPH: PuschStatPrms.__new__() got an unexpected keyword argument 'enableWeightedAveCfoEst'

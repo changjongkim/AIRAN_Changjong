@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/test_cuda_graph_multicell.py", line 21, in <module>
+    from aerial.pycuphy.types import (
+ImportError: cannot import name 'PuschCellStatPrm' from 'aerial.pycuphy.types' (/pscratch/sd/s/sgkim/kcj/AI-RAN/aerial-cuda-accelerated-ran/pyaerial/src/aerial/pycuphy/types.py)
