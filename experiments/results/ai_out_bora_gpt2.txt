@@ -1,0 +1,2 @@
+[GPT-2] GPU0 HBM=3.4/42.4GB, running for 75s
+[GPT-2] done: 1384 iters, 18.4 it/s

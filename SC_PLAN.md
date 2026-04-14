@@ -672,3 +672,49 @@ GPT-2는 모든 Config에서 간섭 미미 (bandwidth 사용이 간헐적이라 
 **이 결과는 논문의 가장 강력한 데이터:**
 - "L1 SLA를 유지하면서 AI throughput을 높인다" = GPU 활용률 극대화
 - NVIDIA 방식 대비 AI 2.6배 증가 (GPT-2) → **zero-cost protection**
+
+### 9.8 BORA vs NVIDIA — 5가지 워크로드 (1N, 40GB, L1 + AI throughput 동시 측정)
+
+검증된 방식(shell background + MPS + 파일 throughput 기록)으로 5가지 AI 워크로드를 비교.
+
+| Workload | 특성 | NVIDIA L1 | miss | NVIDIA AI | BORA L1 | miss | BORA AI | **AI 변화** |
+|----------|------|----------|------|-----------|---------|------|---------|------------|
+| **Neural Rx** | in-line AI, BW 중간 | 0.580ms | 0% | 166.6 it/s | 0.579ms | 0% | **336.7 it/s** | **+102% (2.0x)** |
+| **GPT-2** | LLM, BW 간헐적 | 0.489ms | 0% | 3.1 it/s | 0.524ms | 0% | **5.5 it/s** | **+77% (1.8x)** |
+| **ResNet** | CNN, BW 빈번 | 0.673ms | 6% | 20.7 it/s | 0.680ms | 8% | 21.0 it/s | +1.4% |
+| **HBM stress** | BW 포화 | 0.911ms | 0% | 154.2 it/s | 0.898ms | 0% | 153.4 it/s | -0.5% |
+| **Matmul** | BW+compute 혼합 | 0.543ms | 0% | 170.9 it/s | 0.544ms | 0% | 170.9 it/s | 0% |
+
+#### 분석
+
+**Bandwidth-light AI (Neural Rx, GPT-2):**
+```
+BORA Priority가 L1을 빠르게 끝냄
+→ AI가 GPU를 더 오래 독점적으로 사용
+→ AI throughput 1.8~2.0x 증가
+→ L1 miss 변화 없음 (0%)
+→ "L1 보호 + AI 가속" 동시 달성 = zero-cost protection
+```
+
+**Bandwidth-heavy AI (ResNet, HBM, Matmul):**
+```
+Priority로 L1이 빨리 끝나도
+→ AI가 bandwidth를 연속으로 사용하므로 throughput 변화 없음
+→ L1 miss도 비슷 (bandwidth 경쟁은 priority로 해결 안 됨)
+→ TTI coordination (Config D)이 필요한 영역
+```
+
+#### 워크로드별 BORA 효과 정리
+
+```
+                  L1 보호       AI throughput    적합한 BORA 메커니즘
+Neural Rx:        ✅ (0%)       ✅ (+102%)       Priority만으로 충분
+GPT-2:            ✅ (0%)       ✅ (+77%)        Priority만으로 충분
+ResNet:           ⚠️ (8%)       → (+1.4%)        Priority 부족 → TTI coord 필요
+HBM stress:       ✅ (0%)       → (-0.5%)        Priority 효과 없음 → TTI coord 필요
+Matmul:           ✅ (0%)       → (0%)           Priority 효과 없음 → TTI coord 필요
+```
+
+→ **BORA의 2단계 전략이 정당화됨:**
+  - bandwidth-light AI → Priority(Config C)로 해결
+  - bandwidth-heavy AI → TTI coordination(Config D) 추가 필요

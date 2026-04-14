@@ -1,0 +1,2 @@
+[ResNet-50] GPU0 bs=128 HBM=3.7/42.4GB, running for 75s
+[ResNet-50] done: 1420 iters, 18.9 it/s

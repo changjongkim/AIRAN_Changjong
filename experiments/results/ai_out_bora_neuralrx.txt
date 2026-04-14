@@ -1,0 +1,2 @@
+[NeuralRx] GPU0 intensity=1.0 batch=16 ch=64 size=4096 HBM=1.4GB, running 75s
+[NeuralRx] done: 86590 TTIs in 75.0s (1155 TTI/s, 0.87ms/TTI)

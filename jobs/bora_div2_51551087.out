@@ -1,0 +1,281 @@
+============================================================
+BORA vs Baseline: Diverse (40GB) — same method as bora_vs
+============================================================
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+NVIDIA A100-SXM4-40GB, 40960 MiB
+
+==========================================
+nv_neuralrx (Config B)
+==========================================
+AI PID=418387 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=7.9GB
+
+RESULT: nv_neuralrx
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.580 ms (0.073 ms/cell)
+  RX P95:   0.685 ms
+  RX P99:   0.693 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_nv_neuralrx_20260414_121351.json
+12:13:51.108103 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x560d0bc0b980).
+12:13:51.109601 pusch_rx.cpp:1227 CON[418643] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:13:51.161102 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c0b3120).
+12:13:51.493473 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c37d920).
+12:13:51.499267 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c20fc60).
+12:13:51.507266 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c121540).
+12:13:51.512959 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c2e0290).
+12:13:51.518408 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c2e0290).
+12:13:51.524059 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c346770).
+12:13:51.529260 cuphy.hpp:122    CON[418643] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560d0c2e26d0).
+AI throughput: 2400 iters / 14.4s = 166.6 it/s
+
+==========================================
+bora_neuralrx (Config C)
+==========================================
+AI PID=419007 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=7.9GB
+
+RESULT: bora_neuralrx
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.579 ms (0.072 ms/cell)
+  RX P95:   0.664 ms
+  RX P99:   0.692 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_bora_neuralrx_20260414_121418.json
+12:14:17.922603 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x560a22b19f70).
+12:14:17.924775 pusch_rx.cpp:1227 CON[419285] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:14:17.993267 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a22fc1380).
+12:14:18.169760 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a2328bb90).
+12:14:18.175306 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a2327ba70).
+12:14:18.181104 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a23039890).
+12:14:18.190862 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a23039890).
+12:14:18.196327 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a23039890).
+12:14:18.201589 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a231f0940).
+12:14:18.206991 cuphy.hpp:122    CON[419285] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x560a231229d0).
+AI throughput: 6500 iters / 19.3s = 336.7 it/s
+
+==========================================
+nv_gpt2 (Config B)
+==========================================
+AI PID=419626 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=7.8GB
+
+RESULT: nv_gpt2
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.489 ms (0.061 ms/cell)
+  RX P95:   0.551 ms
+  RX P99:   0.886 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_nv_gpt2_20260414_121444.json
+12:14:44.091372 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x5559413ac220).
+12:14:44.092875 pusch_rx.cpp:1227 CON[419884] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:14:44.183470 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5559418537f0).
+12:14:44.318601 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555941b1e130).
+12:14:44.323508 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5559419b0330).
+12:14:44.328363 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5559419af010).
+12:14:44.333007 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555941a84100).
+12:14:44.337978 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5559419b4e40).
+12:14:44.342905 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5559419b4e40).
+12:14:44.352790 cuphy.hpp:122    CON[419884] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555941a84100).
+AI throughput: 60 iters / 19.1s = 3.1 it/s
+
+==========================================
+bora_gpt2 (Config C)
+==========================================
+AI PID=420310 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=8.7GB
+
+RESULT: bora_gpt2
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.524 ms (0.065 ms/cell)
+  RX P95:   0.615 ms
+  RX P99:   0.714 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_bora_gpt2_20260414_121510.json
+12:15:09.863689 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x558641b85e60).
+12:15:09.865162 pusch_rx.cpp:1227 CON[420629] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:15:09.913779 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55864202d550).
+12:15:10.021548 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5586422f7e90).
+12:15:10.026773 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55864218a090).
+12:15:10.032113 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5586422eac50).
+12:15:10.037099 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5586422eac50).
+12:15:10.042254 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x558643d28830).
+12:15:10.047169 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x558642197eb0).
+12:15:10.052241 cuphy.hpp:122    CON[420629] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x558643d14a00).
+AI throughput: 100 iters / 18.1s = 5.5 it/s
+
+==========================================
+nv_resnet (Config B)
+==========================================
+AI PID=420992 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=8.9GB
+
+RESULT: nv_resnet
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.673 ms (0.084 ms/cell)
+  RX P95:   1.042 ms
+  RX P99:   1.120 ms
+  Miss>1ms: 6.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_nv_resnet_20260414_121537.json
+12:15:36.781111 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x55af55974190).
+12:15:36.783232 pusch_rx.cpp:1227 CON[421271] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:15:36.833612 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af55e1b5f0).
+12:15:36.980118 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af560e5e00).
+12:15:36.995726 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af560d5e90).
+12:15:37.001163 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af5604bdd0).
+12:15:37.006502 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af560aec20).
+12:15:37.011540 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af560aea50).
+12:15:37.017407 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af5604bdd0).
+12:15:37.023890 cuphy.hpp:122    CON[421271] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55af55f59d60).
+AI throughput: 400 iters / 19.3s = 20.7 it/s
+
+==========================================
+bora_resnet (Config C)
+==========================================
+AI PID=422778 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=8.9GB
+
+RESULT: bora_resnet
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.680 ms (0.085 ms/cell)
+  RX P95:   1.059 ms
+  RX P99:   1.115 ms
+  Miss>1ms: 8.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_bora_resnet_20260414_121603.json
+12:16:03.035426 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x562a81c43f50).
+12:16:03.036924 pusch_rx.cpp:1227 CON[423098] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:16:03.142619 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a820eb290).
+12:16:03.274144 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a823b5aa0).
+12:16:03.280597 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a82247dd0).
+12:16:03.286430 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a8231ba70).
+12:16:03.291910 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a82258250).
+12:16:03.297050 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a82258250).
+12:16:03.302412 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a82258250).
+12:16:03.308320 cuphy.hpp:122    CON[423098] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562a82258250).
+AI throughput: 400 iters / 19.0s = 21.0 it/s
+
+==========================================
+nv_hbm (Config B)
+==========================================
+AI PID=423440 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=11.2GB
+
+RESULT: nv_hbm
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.911 ms (0.114 ms/cell)
+  RX P95:   0.947 ms
+  RX P99:   0.965 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_nv_hbm_20260414_121630.json
+12:16:29.859777 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x55c0bd962dd0).
+12:16:29.861219 pusch_rx.cpp:1227 CON[423719] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:16:29.947522 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0bde09da0).
+12:16:30.081984 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0be0d46d0).
+12:16:30.090705 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0bdf668e0).
+12:16:30.099114 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0be037040).
+12:16:30.107522 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0be037040).
+12:16:30.115950 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0bdf5fa40).
+12:16:30.124197 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0bdf36f50).
+12:16:30.132441 cuphy.hpp:122    CON[423719] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x55c0bdf36f50).
+AI throughput: 3100 iters / 20.1s = 154.2 it/s
+
+==========================================
+bora_hbm (Config C)
+==========================================
+AI PID=424061 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=11.2GB
+
+RESULT: bora_hbm
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.898 ms (0.112 ms/cell)
+  RX P95:   0.919 ms
+  RX P99:   0.930 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_bora_hbm_20260414_121657.json
+12:16:57.103178 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x562f87e0ae30).
+12:16:57.104655 pusch_rx.cpp:1227 CON[424338] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:16:57.165170 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f882b2140).
+12:16:57.303624 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f8857c940).
+12:16:57.312347 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f8840ec80).
+12:16:57.320764 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f89faebf0).
+12:16:57.329021 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f884df2b0).
+12:16:57.337328 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f8833c0d0).
+12:16:57.345692 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f884de090).
+12:16:57.353957 cuphy.hpp:122    CON[424338] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x562f8840d150).
+AI throughput: 3100 iters / 20.2s = 153.4 it/s
+
+==========================================
+nv_matmul (Config B)
+==========================================
+AI PID=424681 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=7.9GB
+
+RESULT: nv_matmul
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.543 ms (0.068 ms/cell)
+  RX P95:   0.555 ms
+  RX P99:   0.558 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_nv_matmul_20260414_121723.json
+12:17:23.592869 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x555c3f0a4950).
+12:17:23.595014 pusch_rx.cpp:1227 CON[424959] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:17:23.648557 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c3f54c280).
+12:17:23.835135 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c3f816a80).
+12:17:23.844737 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c3f806d80).
+12:17:23.849536 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c3f6b7040).
+12:17:23.854424 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c3f77b830).
+12:17:23.859353 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c3f5c3ae0).
+12:17:23.864424 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c3f77b830).
+12:17:23.869933 cuphy.hpp:122    CON[424959] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x555c4126d2d0).
+AI throughput: 3300 iters / 19.3s = 170.9 it/s
+
+==========================================
+bora_matmul (Config C)
+==========================================
+AI PID=425318 (SM=60%)
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=7.9GB
+
+RESULT: bora_matmul
+  Mode:     GRAPH
+  Cells:    8
+  RX mean:  0.544 ms (0.068 ms/cell)
+  RX P95:   0.554 ms
+  RX P99:   0.568 ms
+  Miss>1ms: 0.0%
+Saved: /pscratch/sd/s/sgkim/kcj/AI-RAN/experiments/results/exp_bora_matmul_20260414_121750.json
+12:17:50.263390 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 5084.742 MiB for cuPHY PUSCH channel object (0x5615facdde70).
+12:17:50.265593 pusch_rx.cpp:1227 CON[425619] [CUPHY.PUSCH_RX] PuschRx: Running with eqCoeffAlgo 1
+12:17:50.392343 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fb1851b0).
+12:17:50.519494 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fb44fb00).
+12:17:50.524888 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fb2e1cf0).
+12:17:50.530401 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fce7edc0).
+12:17:50.535490 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fb3b48b0).
+12:17:50.540408 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fb442980).
+12:17:50.545322 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fb442980).
+12:17:50.550501 cuphy.hpp:122    CON[425619] [CUPHY.MEMFOOT] cuphyMemoryFootprint - GPU allocation: 98.130 MiB for cuPHY PDSCH channel object (0x5615fb442980).
+AI throughput: 3300 iters / 19.3s = 170.9 it/s
+
+============================================================
+ALL COMPLETE
+============================================================

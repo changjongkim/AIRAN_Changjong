@@ -1,0 +1,2 @@
+[Matmul] GPU0 intensity=1.0 size=8192 bw/iter=0.4GB HBM=1.4GB, running 75s
+[Matmul] done: 12836 iters, 68.9 GB/s effective bandwidth

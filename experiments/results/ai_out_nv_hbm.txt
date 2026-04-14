@@ -1,0 +1,2 @@
+[HBM stress] GPU0 alloc=2.0GB running for 75s
+[HBM stress] done: 13273 iters
