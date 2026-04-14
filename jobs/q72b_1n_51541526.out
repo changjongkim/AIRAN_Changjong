@@ -1,0 +1,18 @@
+============================================================
+1N × 4GPU: L1 + Qwen-72B TP (NVLink, 40GB)
+============================================================
+index, name, memory.total [MiB]
+0, NVIDIA A100-SXM4-40GB, 40960 MiB
+1, NVIDIA A100-SXM4-40GB, 40960 MiB
+2, NVIDIA A100-SXM4-40GB, 40960 MiB
+3, NVIDIA A100-SXM4-40GB, 40960 MiB
+=== baseline ===
+[nid001460] q72b1n_baseline: 8cells/GPU, AI=none
+GPU: NVIDIA A100-SXM4-40GB
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=6.6GB
+L1: 8cells 4T4R GRAPH, HBM=6.6GB
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=6.6GB
+GPU: NVIDIA A100-SXM4-40GB
+L1: 8cells 4T4R GRAPH, HBM=6.6GB
