@@ -1088,6 +1088,81 @@ CUDA Graph가 해주지 않는 것:
 이는 **"CUDA Graph(SM 최적화) + Bandwidth 관리"가 모두 필요**함을 보여주며,
 SM만 격리하는 MIG도, SM만 병렬화하는 CUDA Graph도 단독으로는 부족하다.
 
+### Exp-18: Multi-Node Multi-GPU Scale (1/2/4 Nodes × 4 GPU, 40GB, 2026-04-14)
+
+**실제 AI-RAN 클러스터 구조: 각 노드 4GPU, 모든 GPU가 L1 + AI를 동시 실행.**
+GPU별로 다른 AI 서비스를 배치하여 현실적 멀티테넌시 환경 재현.
+
+```
+각 노드:
+  GPU0: L1 (CUDA Graph 8cell) + Neural Rx (in-line AI)
+  GPU1: L1 (CUDA Graph 8cell) + GPT-2 (LLM serving)
+  GPU2: L1 (CUDA Graph 8cell) + ResNet-50 (video analytics)
+  GPU3: L1 (CUDA Graph 8cell) + Neural Rx (in-line AI)
+```
+
+#### Per-GPU 간섭 (각 GPU의 L1 baseline 대비)
+
+| GPU | AI Service | 1N (4GPU) | 2N (8GPU) | 4N (16GPU) | 일관성 |
+|-----|-----------|-----------|-----------|------------|--------|
+| GPU0 | Neural Rx | 0.937ms (**1.71x**) | 0.935ms (**1.71x**) | 0.920~0.935ms (**1.71x**) | **동일** |
+| GPU1 | GPT-2 | 2.015ms (**3.70x**) | 2.017ms (**3.70x**) | 1.720~2.073ms (**~3.7x**) | **동일** |
+| GPU2 | ResNet-50 | 2.206ms (**4.03x**) | 2.186ms (**4.03x**) | 2.175~2.289ms (**~4.0x**) | **동일** |
+| GPU3 | Neural Rx | 0.915ms (**1.68x**) | 0.937ms (**1.71x**) | 0.922~0.958ms (**~1.7x**) | **동일** |
+
+#### Baseline (L1 only, AI 없음)
+
+| | 1N (4GPU) | 2N (8GPU) | 4N (16GPU) |
+|---|---|---|---|
+| per-GPU | 0.544~0.548ms | 0.432~0.437ms | 0.433~0.439ms |
+| TTI miss (>1ms) | 0% | 0% | 0% |
+
+#### TTI 1ms 통과 여부
+
+| AI Service | L1 + AI latency | TTI 1ms | 비고 |
+|-----------|----------------|---------|------|
+| **Neural Rx** | **~0.93ms** | **✅ 통과** | in-line AI는 공존 가능 |
+| GPT-2 | ~2.02ms | ❌ 초과 | LLM serving은 간섭 심각 |
+| ResNet-50 | ~2.21ms | ❌ 초과 | video analytics도 심각 |
+
+#### 핵심 발견
+
+**1. 노드 수에 관계없이 per-GPU 간섭이 동일**
+
+```
+Neural Rx:  1N=0.93ms  2N=0.94ms  4N=0.93ms  → 동일
+GPT-2:     1N=2.02ms  2N=2.04ms  4N=2.01ms  → 동일
+ResNet:    1N=2.21ms  2N=2.20ms  4N=2.22ms  → 동일
+
+→ 간섭은 GPU 내부 HBM bandwidth 문제
+→ 노드 간 cross-node 영향 없음 (현재 설정에서)
+→ 노드를 추가해도 per-GPU 간섭은 해결 안 됨
+```
+
+**2. 총 AI 처리량은 노드에 선형 비례**
+
+```
+1N: 4 GPU × (L1 + AI)  → 총 4 AI 서비스
+2N: 8 GPU × (L1 + AI)  → 총 8 AI 서비스 (2배)
+4N: 16 GPU × (L1 + AI) → 총 16 AI 서비스 (4배)
+
+per-GPU 성능 동일 → 총 AI 처리량 = 노드 수 × per-node 처리량 (선형 스케일)
+하지만 per-GPU의 간섭 문제(GPT-2 3.7x, ResNet 4x)는 스케일로 해결 불가
+```
+
+**3. 현재 실험의 한계: 노드 간 interconnect 미활용**
+
+```
+현재: 각 GPU가 독립적으로 AI를 실행 (GPU 간 통신 없음)
+현실: AI workload가 NVLink/Slingshot으로 GPU/노드 간 데이터를 주고받음
+  → distributed inference (tensor parallel across GPUs)
+  → gradient sync (distributed training)
+  → cross-node AI data movement
+
+→ 노드 간 interconnect 트래픽이 추가되면 간섭 패턴이 달라질 수 있음
+→ 추가 실험 필요: NVLink/RDMA를 활용하는 분산 AI workload
+```
+
 #### 6. NVIDIA PoC 논문과의 포지셔닝
 
 | | NVIDIA PoC | 본 연구 |
